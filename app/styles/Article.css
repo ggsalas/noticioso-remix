@@ -1,0 +1,40 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  height: 899px;
+  width: 758px;
+}
+
+.Feed {
+  background: grey;
+  border: 4px solid black;
+  display: block;
+  flex-direction: column;
+  overflow: hidden;
+  /* width: 100vw; */
+  height: 100vh;
+}
+
+.Article {
+  /* height: 500px; */
+  overflow-x: scroll;
+  overflow-y: hidden;
+  border: 1px solid green;
+  padding: 30px;
+}
+
+.Article__columns {
+  height: 100%;
+  column-width: 300px;
+  -webkit-column-width: 300px;
+  column-gap: 17px;
+  -webkit-column-gap: 17px;
+  background: #c3c8ca;
+}
+
+.Article__columns img {
+  width: 100%;
+}
