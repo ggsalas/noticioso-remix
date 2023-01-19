@@ -4,35 +4,95 @@ body {
   padding: 0;
   box-sizing: border-box;
   overflow: hidden;
-  height: 899px;
-  width: 758px;
-}
-
-.Feed {
-  background: grey;
-  border: 4px solid black;
-  display: block;
-  flex-direction: column;
-  overflow: hidden;
-  /* width: 100vw; */
+  width: 100vw;
   height: 100vh;
 }
 
+:root {
+  --articlePadding: 30px;
+  --articleColumnWidth: 500px;
+  --articleInteractionsZindex: 99;
+  --articleActionsZindex: 99;
+}
+
+.Feed {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  flex-direction: row;
+  justify-content: center;
+}
+
 .Article {
-  /* height: 500px; */
-  overflow-x: scroll;
-  overflow-y: hidden;
-  border: 1px solid green;
-  padding: 30px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  padding: var(--articlePadding) 0 var(--articlePadding) var(--articlePadding);
+  height: calc(100% - var(--articlePadding) * 2);
+  width: var(--articleColumnWidth);
+}
+
+.Article__actions,
+.Article__interactions {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  z-index: var(--articleActionsZindex);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.Article__interactions-top,
+.Article__interactions-bottom {
+  flex-basis: 20%;
+  background: green;
+  opacity: 0.5;
+}
+
+.Article__interactions-center {
+  display: flex;
+  flex-basis: 60%;
+}
+
+.Article__interactions-back {
+  background: red;
+  opacity: 0.5;
+  flex-basis: 35%;
+}
+
+.Article__interactions-next {
+  background: blue;
+  opacity: 0.5;
+  flex-basis: 35%;
+}
+
+.Article__interactions-home {
+  background: white;
+  opacity: 0.5;
+  flex-basis: 30%;
+}
+
+.Article__actions-menu,
+.Article__actions-navigation {
+  flex-basis: 20%;
+  background: green;
+  opacity: 0.5;
+}
+
+.Article__actions-home {
+  display: flex;
+  flex-basis: 60%;
 }
 
 .Article__columns {
+  column-width: var(--articleColumnWidth);
+  -webkit-column-width: var(--articleColumnWidth);
+  column-gap: var(--articlePadding);
+  -webkit-column-gap: var(--articlePadding);
   height: 100%;
-  column-width: 300px;
-  -webkit-column-width: 300px;
-  column-gap: 17px;
-  -webkit-column-gap: 17px;
-  background: #c3c8ca;
 }
 
 .Article__columns img {

@@ -10,7 +10,6 @@ export function links() {
 
 export const loader = async ({ params }: LoaderArgs) => {
   if (!params.articleId) return;
-
   const article = await getArticle(params.articleId);
 
   return article;
@@ -20,7 +19,7 @@ export default function Feed() {
   const article = useLoaderData<typeof loader>();
 
   return (
-    <main className="Feed" id="feed">
+    <main className="Feed">
       <Article content={article} />
     </main>
   );
