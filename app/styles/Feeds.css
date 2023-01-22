@@ -1,0 +1,27 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+
+.Feeds {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  flex-direction: row;
+}
+
+.Feeds__list {
+  flex-direction: column;
+  flex-basis: 40%;
+  display: flex;
+  background: lightgray;
+}
+
+.Feeds__content {
+  flex-basis: 60%;
+}

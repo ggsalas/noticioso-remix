@@ -1,3 +1,20 @@
+import { XMLParser } from "fast-xml-parser";
+
+export async function getFeedContent(url: string) {
+  const res = await fetch(url);
+
+  if (!res.ok) {
+    throw new Error(`Error on get feeds: ${res.status}`);
+  } else {
+    const data = await res.text();
+    const parser = new XMLParser();
+    const feed = parser.parse(data);
+
+    return feed;
+  }
+}
+
+// Remove this... deprecated
 type Post = {
   slug: string;
   title: string;
