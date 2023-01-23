@@ -5,13 +5,14 @@ type ReadabilityArticle = ReturnType<Readability["parse"]>;
 
 interface ArticleProps {
   content: ReadabilityArticle;
-  onGoNextItem?: any;
+  onGoNext?: () => void;
+  onGoPrev?: () => void;
 }
 
 const ARTICLE_COLUMN_WIDTH = 600;
 const ARTICLE_PADDING = 30;
 
-export default function Article({ content }: ArticleProps) {
+export default function Article({ content, onGoNext, onGoPrev }: ArticleProps) {
   const container = useRef<HTMLElement>(null);
   const [showActions, setShowActions] = useState(false);
   const { title, content: html, siteName } = content as any;
@@ -52,22 +53,30 @@ export default function Article({ content }: ArticleProps) {
           </div>
         ) : (
           <div className="Article__interactions">
-            <div className="Article__interactions-top" />
+            <div
+              className="Article__interactions-top"
+              onClick={toggleActions}
+            />
             <div className="Article__interactions-center">
               <div
                 className="Article__interactions-back"
                 onClick={handlePageNavigation("back")}
               />
               <div
-                className="Article__interactions-home"
-                onClick={toggleActions}
-              />
-              <div
                 className="Article__interactions-next"
                 onClick={handlePageNavigation("next")}
               />
             </div>
-            <div className="Article__interactions-bottom" />
+            <div className="Article__interactions-bottom">
+              <div
+                className="Article__interactions-bottom-back"
+                onClick={onGoPrev}
+              />
+              <div
+                className="Article__interactions-bottom-next"
+                onClick={onGoNext}
+              />
+            </div>
           </div>
         )}
 

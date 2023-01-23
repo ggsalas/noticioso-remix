@@ -1,6 +1,7 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useParams } from "@remix-run/react";
+import { useEffect } from "react";
 import { useLoaderData } from "react-router";
 import { getFeedContent } from "~/models/feed.server";
 
@@ -28,6 +29,13 @@ export default function () {
     // image,
     item: content,
   } = feedContent.rss.channel;
+
+  // to use in the navigation of the feed and article pages
+  useEffect(() => {
+    if (content) {
+      localStorage.setItem(`feedContent-${feedUrl}`, JSON.stringify(content));
+    }
+  }, [content, feedUrl]);
 
   return (
     <div>
