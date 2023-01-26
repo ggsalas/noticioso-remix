@@ -22,6 +22,18 @@ body {
   background: lightgray;
 }
 
+.Feeds_list_item-active {
+  background: white;
+  padding: 0.2em;
+}
+
+.Feeds_list_item {
+  background: lightgray;
+  padding: 0.2em;
+}
+
 .Feeds__content {
   flex-basis: 60%;
+  overflow-y: scroll;
+  padding: 1em;
 }

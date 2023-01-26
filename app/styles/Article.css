@@ -13,14 +13,17 @@ body {
   --articleColumnWidth: 500px;
   --articleInteractionsZindex: 99;
   --articleActionsZindex: 99;
+  --articleFooter: 2.5rem;
 }
 
 .Feed {
   display: flex;
   width: 100vw;
-  height: 100vh;
-  flex-direction: row;
-  justify-content: center;
+  height: 80vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: grey;
 }
 
 .Article {
@@ -28,8 +31,9 @@ body {
   justify-content: center;
   overflow: hidden;
   padding: var(--articlePadding) 0 var(--articlePadding) var(--articlePadding);
-  height: calc(100% - var(--articlePadding) * 2);
+  height: calc(100vh - var(--articleFooter) - var(--articlePadding) * 2);
   width: var(--articleColumnWidth);
+  background-color: orange;
 }
 
 .Article__actions,
@@ -56,7 +60,7 @@ body {
 .Article__interactions-bottom-back {
   display: flex;
   flex-basis: 30%;
-  background: red;
+  background: orange;
 }
 
 .Article__interactions-bottom-next {
@@ -103,4 +107,30 @@ body {
 
 .Article__columns img {
   width: 100%;
+}
+
+.Article__footer {
+  height: var(--articleFooter);
+  box-sizing: border-box;
+  background-color: magenta;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.Article__readPercentage {
+  height: calc(0.5em - 2px);
+  margin-bottom: 0.5em;
+  border: 1px black;
+}
+
+.Article__readPercentageBar {
+  background-color: black;
+  height: 100%;
+}
+
+.Article__footerInfo {
+  font-size: 0.8rem;
+  line-height: 1.5rem;
 }

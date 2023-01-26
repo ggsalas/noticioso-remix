@@ -1,7 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { useEffect } from "react";
-import { json, Outlet, useLoaderData } from "react-router";
+import { json, Outlet, useLoaderData, useLocation } from "react-router";
 import { getFeeds } from "~/models/feeds.server";
 import FeedsCSS from "~/styles/Feeds.css";
 
@@ -19,6 +19,7 @@ export const loader: LoaderFunction = async () => {
 
 export default function Feeds() {
   const feeds = useLoaderData() as LoaderData;
+  const location = useLocation();
 
   // to use in the navigation of the feed and article pages
   useEffect(() => {
@@ -31,11 +32,22 @@ export default function Feeds() {
     <div className="Feeds">
       <div className="Feeds__list">
         <h2>Feeds</h2>
-        {feeds.map((feed) => (
-          <Link key={feed.url} to={`/feeds/${encodeURIComponent(feed.url)}`}>
-            {feed.name}
-          </Link>
-        ))}
+        {feeds.map((feed) => {
+          const to = `/feeds/${encodeURIComponent(feed.url)}`;
+          const isActive = location.pathname === to;
+
+          return (
+            <Link
+              key={feed.url}
+              to={to}
+              className={
+                isActive ? "Feeds_list_item-active" : "Feeds_list_item"
+              }
+            >
+              {feed.name}
+            </Link>
+          );
+        })}
       </div>
       <div className="Feeds__content">
         <Outlet />

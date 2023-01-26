@@ -1,6 +1,6 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Link, useParams } from "@remix-run/react";
+import { Link, NavLink, useParams } from "@remix-run/react";
 import { useEffect } from "react";
 import { useLoaderData } from "react-router";
 import { getFeedContent } from "~/models/feed.server";
