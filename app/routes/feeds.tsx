@@ -3,6 +3,7 @@ import { Link } from "@remix-run/react";
 import { useEffect } from "react";
 import { json, Outlet, useLoaderData, useLocation } from "react-router";
 import { getFeeds } from "~/models/feeds.server";
+import { useGlobalFont } from "~/shared/useGlobalFont";
 import FeedsCSS from "~/styles/Feeds.css";
 
 type LoaderData = Awaited<ReturnType<typeof getFeeds>>;
@@ -18,6 +19,7 @@ export const loader: LoaderFunction = async () => {
 };
 
 export default function Feeds() {
+  useGlobalFont();
   const feeds = useLoaderData() as LoaderData;
   const location = useLocation();
 

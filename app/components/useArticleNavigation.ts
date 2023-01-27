@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
 export function exists<T>(value: T | undefined | null): value is T {
   return value !== undefined && value !== null;
 }
 
 export const useArticleNavigation = ({
+  content,
   increment,
   gotoNextArticle,
   gotoPreviousArticle,
@@ -27,17 +28,15 @@ export const useArticleNavigation = ({
   );
   const readPercentage = read > 100 ? 100 : read;
 
-  console.table({
-    scrollLeft,
-    scrollLeftPlusIncrement: scrollLeft + increment,
-    contentWidth,
-    isArticleStart,
-    isArticleEnd,
-  });
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (contentElement) setScrollLeft(containerElement?.scrollLeft);
-  }, [containerElement]);
+  }, [containerElement, contentElement]);
+
+  // if content changes, reset scroll
+  // TODO: save each url scroll, default 0
+  useLayoutEffect(() => {
+    containerElement && containerElement.scrollTo(0, 0);
+  }, [containerElement, content]);
 
   // scrollLeft should be in the state to be updated listening the scroll
   // events of the article element

@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=PT+Serif:normal,bold,bolditalic,italic&display=swap");
+
 html,
 body {
   margin: 0;
@@ -5,35 +7,43 @@ body {
   box-sizing: border-box;
   overflow: hidden;
   width: 100vw;
-  height: 100vh;
+  height: var(--mobileViewportHeight, 100vh);
+  font-family: "PT Serif", serif;
 }
 
 :root {
-  --articlePadding: 30px;
+  --articlePadding: 24px;
   --articleColumnWidth: 500px;
   --articleInteractionsZindex: 99;
   --articleActionsZindex: 99;
   --articleFooter: 2.5rem;
+  --mainFontSize: 16px;
 }
 
 .Feed {
   display: flex;
   width: 100vw;
-  height: 80vh;
+  height: var(--mobileViewportHeight, 100vh);
+  flex-direction: row;
+  justify-content: center;
+  background-color: white;
+  /* background-color: grey; */
+}
+
+.Article__Container {
+  display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  background-color: grey;
+  height: var(--mobileViewportHeight, 100vh);
 }
 
 .Article {
   display: flex;
   justify-content: center;
   overflow: hidden;
-  padding: var(--articlePadding) 0 var(--articlePadding) var(--articlePadding);
-  height: calc(100vh - var(--articleFooter) - var(--articlePadding) * 2);
+  padding: var(--articlePadding) 0 var(--articlePadding) 0;
   width: var(--articleColumnWidth);
-  background-color: orange;
+  /* background-color: orange; */
+  flex-grow: 1;
 }
 
 .Article__actions,
@@ -44,7 +54,7 @@ body {
   display: flex;
   z-index: var(--articleActionsZindex);
   width: 100vw;
-  height: 100vh;
+  height: var(--mobileViewportHeight, 100vh);
   display: flex;
   flex-direction: column;
 }
@@ -52,7 +62,7 @@ body {
 .Article__interactions-top,
 .Article__interactions-bottom {
   flex-basis: 20%;
-  background: green;
+  /* background: green; */
   opacity: 0.5;
   display: flex;
 }
@@ -60,7 +70,7 @@ body {
 .Article__interactions-bottom-back {
   display: flex;
   flex-basis: 30%;
-  background: orange;
+  /* background: orange; */
 }
 
 .Article__interactions-bottom-next {
@@ -74,27 +84,33 @@ body {
 }
 
 .Article__interactions-back {
-  background: red;
+  /* background: red; */
   opacity: 0.5;
   flex-basis: 30%;
 }
 
 .Article__interactions-next {
-  background: blue;
+  /* background: blue; */
   opacity: 0.5;
   flex-basis: 70%;
 }
 
-.Article__actions-menu,
-.Article__actions-navigation {
-  flex-basis: 20%;
-  background: green;
-  opacity: 0.5;
+.Article__actions-menu {
+  background-color: rgba(255, 255, 255, 1);
 }
 
 .Article__actions-home {
   display: flex;
-  flex-basis: 60%;
+  flex-grow: 1;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.Article__actions-menuBar {
+  padding: var(--articlePadding);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 2px solid black;
 }
 
 .Article__columns {
@@ -107,12 +123,44 @@ body {
 
 .Article__columns img {
   width: 100%;
+  height: auto;
+}
+
+.Article__columns picture {
+  display: flex;
+  margin-bottom: 1em;
+}
+
+.Article__columns h1 {
+  font-size: 2rem;
+}
+
+.Article__columns h2 {
+  font-size: 1.4rem;
+}
+
+.Article__columns h3 {
+  font-size: 1.3rem;
+}
+
+.Article__columns h4 {
+  font-size: 1.2rem;
+}
+
+.Article__columns h4 {
+  font-size: 1.1rem;
+}
+
+.Article__columns p {
+  font-size: 1rem;
+  text-align: justify;
+  hyphens: auto;
 }
 
 .Article__footer {
   height: var(--articleFooter);
   box-sizing: border-box;
-  background-color: magenta;
+  /* background-color: magenta; */
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -122,7 +170,7 @@ body {
 .Article__readPercentage {
   height: calc(0.5em - 2px);
   margin-bottom: 0.5em;
-  border: 1px black;
+  border: 1px solid black;
 }
 
 .Article__readPercentageBar {
@@ -133,4 +181,11 @@ body {
 .Article__footerInfo {
   font-size: 0.8rem;
   line-height: 1.5rem;
+}
+
+.FontSet {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 0.5em;
 }
