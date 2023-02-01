@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef, useState } from "react";
+import { useMeasure } from "~/shared/useMeasure";
 
 export function exists<T>(value: T | undefined | null): value is T {
   return value !== undefined && value !== null;
@@ -11,12 +12,12 @@ export const useArticleNavigation = ({
   gotoPreviousArticle,
 }: any) => {
   const containerRef = useRef<HTMLElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const { ref: contentRef, width: contentWidth } = useMeasure<HTMLDivElement>([
+    "width",
+  ]);
   const containerElement = containerRef.current;
-  const contentElement = contentRef.current;
 
   const [scrollLeft, setScrollLeft] = useState<number | undefined>();
-  const contentWidth = contentElement?.getBoundingClientRect().width;
   const isArticleEnd = Boolean(
     exists(scrollLeft) &&
       exists(contentWidth) &&
@@ -29,11 +30,11 @@ export const useArticleNavigation = ({
   const readPercentage = read > 100 ? 100 : read;
 
   useLayoutEffect(() => {
-    if (contentElement) setScrollLeft(containerElement?.scrollLeft);
-  }, [containerElement, contentElement]);
+    if (containerElement) setScrollLeft(containerElement?.scrollLeft);
+  }, [containerElement]);
 
   // if content changes, reset scroll
-  // TODO: save each url scroll, default 0
+  // TODO: save each url scroll (default 0)
   useLayoutEffect(() => {
     containerElement && containerElement.scrollTo(0, 0);
   }, [containerElement, content]);
@@ -70,6 +71,5 @@ export const useArticleNavigation = ({
     containerRef,
     contentRef,
     containerElement,
-    contentElement,
   };
 };

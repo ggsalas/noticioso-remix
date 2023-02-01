@@ -132,23 +132,23 @@ body {
 }
 
 .Article__columns h1 {
-  font-size: 2rem;
-}
-
-.Article__columns h2 {
-  font-size: 1.4rem;
-}
-
-.Article__columns h3 {
   font-size: 1.3rem;
 }
 
-.Article__columns h4 {
+.Article__columns h2 {
   font-size: 1.2rem;
+}
+
+.Article__columns h3 {
+  font-size: 1.15rem;
 }
 
 .Article__columns h4 {
   font-size: 1.1rem;
+}
+
+.Article__columns h4 {
+  font-size: 1.05rem;
 }
 
 .Article__columns p {
