@@ -1,4 +1,4 @@
-import { Article, Feed } from "~/types";
+import type { Article, Feed } from "~/types";
 
 export function getNavigation({
   feedUrl,
@@ -45,16 +45,18 @@ export function getNavigation({
 
   // Go to: scroll -> next article -> next feed
   return {
-    nextUrl: nextArticleIndex
-      ? getArtileUrl(articles[nextArticleIndex].link)
-      : nextFeedIndex
-      ? getFeedUrl(feeds[nextFeedIndex].url)
-      : undefined,
-    prevUrl: prevArticleIndex
-      ? getArtileUrl(articles[prevArticleIndex].link)
-      : prevFeedIndex
-      ? getFeedUrl(feeds[prevFeedIndex].url)
-      : undefined,
+    nextUrl:
+      nextArticleIndex !== false
+        ? getArtileUrl(articles[nextArticleIndex].link)
+        : nextFeedIndex !== false
+        ? getFeedUrl(feeds[nextFeedIndex].url)
+        : undefined,
+    prevUrl:
+      prevArticleIndex !== false
+        ? getArtileUrl(articles[prevArticleIndex].link)
+        : prevFeedIndex !== false
+        ? getFeedUrl(feeds[prevFeedIndex].url)
+        : undefined,
     feedPageUrl: getFeedUrl(feeds[currentFeedIndex].url),
   };
 }

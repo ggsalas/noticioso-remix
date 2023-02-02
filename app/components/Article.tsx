@@ -3,6 +3,7 @@ import { useState } from "react";
 import useViewportDimensions from "~/shared/useViewportDimensions";
 import { FontSet } from "./FontSet";
 import { useArticleNavigation } from "./useArticleNavigation";
+import { useKeyboardNavigation } from "./useKeyboardNavigation";
 
 type ReadabilityArticle = ReturnType<Readability["parse"]>;
 
@@ -43,6 +44,13 @@ export default function Article({
     increment,
     gotoNextArticle: onGoNext,
     gotoPreviousArticle: onGoPrev,
+  });
+
+  useKeyboardNavigation({
+    handlePageNavigation,
+    onGoToFeed,
+    onGoPrev,
+    onGoNext,
   });
 
   const toggleActions = () => {
