@@ -1,0 +1,14 @@
+.PageLoading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 0.2rem;
+  z-index: 999;
+  width: 100vw;
+  background: transparent;
+}
+
+.PageLoading__bar {
+  background: black;
+  height: 100%;
+}

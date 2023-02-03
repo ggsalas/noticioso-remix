@@ -108,7 +108,7 @@ export default function Article({
         )}
 
         <div className="Article__columns">
-          <span>{siteName}</span>
+          <span className="Article__siteName">{siteName}</span>
           <h1>{title}</h1>
           <div dangerouslySetInnerHTML={{ __html: html }} ref={contentRef} />
         </div>

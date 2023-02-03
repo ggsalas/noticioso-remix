@@ -15,6 +15,11 @@ body {
   flex-direction: row;
 }
 
+.Feeds a {
+  color: black;
+  text-decoration: none;
+}
+
 .Feeds__list {
   flex-direction: column;
   flex-basis: 40%;

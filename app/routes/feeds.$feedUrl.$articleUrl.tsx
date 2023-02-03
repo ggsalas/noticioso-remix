@@ -1,15 +1,20 @@
-import { useLoaderData, useParams } from "@remix-run/react";
+import { PrefetchPageLinks, useLoaderData, useParams } from "@remix-run/react";
 import Article from "~/components/Article";
 import type { LoaderArgs } from "@remix-run/node";
 import ArticleCSS from "~/styles/Article.css";
+import PageTransition from "~/styles/PageLoading.css";
 import { getArticle } from "~/models/article.server";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getNavigation } from "~/shared/getNavigation";
 import { useGlobalFont } from "~/shared/useGlobalFont";
+import PageLoading from "~/components/PageLoading";
 
 export function links() {
-  return [{ rel: "stylesheet", href: ArticleCSS }];
+  return [
+    { rel: "stylesheet", href: ArticleCSS },
+    { rel: "stylesheet", href: PageTransition },
+  ];
 }
 
 export const loader = async ({ params }: LoaderArgs) => {
@@ -47,7 +52,6 @@ export default function ArticleUrl() {
     setNavigation(navigation);
   }, [feedUrl, articleUrl]);
 
-  console.log(navigation);
   const onGoNextHandler = () =>
     navigation.nextUrl ? navigate(navigation.nextUrl) : null;
   const onGoPrevHandler = () =>
@@ -56,6 +60,10 @@ export default function ArticleUrl() {
 
   return (
     <main className="Feed">
+      <PageLoading />
+      {navigation.nextUrl && <PrefetchPageLinks page={navigation.nextUrl} />}
+      {navigation.prevUrl && <PrefetchPageLinks page={navigation.prevUrl} />}
+
       <Article
         content={article}
         onGoNext={onGoNextHandler}

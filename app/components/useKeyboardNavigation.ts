@@ -8,7 +8,6 @@ export function useKeyboardNavigation({
 }: any) {
   useEffect(() => {
     function handleKeys(event: any) {
-      console.log(event.key);
       switch (event.key) {
         // Navigate
         case "ArrowDown":
