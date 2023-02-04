@@ -25,6 +25,7 @@ body {
   flex-basis: 40%;
   display: flex;
   background: lightgray;
+  overflow-y: scroll;
 }
 
 .Feeds_list_item-active {
