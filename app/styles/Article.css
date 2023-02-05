@@ -1,22 +1,8 @@
-@import url("https://fonts.googleapis.com/css?family=PT+Serif:normal,bold,bolditalic,italic&display=swap");
-
 html,
 body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
   overflow: hidden;
   width: 100vw;
   height: var(--mobileViewportHeight, 100vh);
-  font-family: "PT Serif", serif;
-}
-
-:root {
-  --articlePadding: 24px;
-  --articleColumnWidth: 500px;
-  --articleInteractionsZindex: 99;
-  --articleActionsZindex: 99;
-  --mainFontSize: 16px;
 }
 
 .Feed {
@@ -25,8 +11,7 @@ body {
   height: var(--mobileViewportHeight, 100vh);
   flex-direction: row;
   justify-content: center;
-  background-color: white;
-  /* background-color: grey; */
+  background: var(--colorBackground);
 }
 
 .Article__Container {
@@ -46,7 +31,7 @@ body {
 
 /* All links are disabled */
 .Article a {
-  color: black;
+  color: var(--colorFront);
   font-weight: normal;
   text-decoration: none;
   font-style: italic;
@@ -102,13 +87,13 @@ body {
 }
 
 .Article__actions-menu {
-  background-color: rgba(255, 255, 255, 1);
+  background-color: var(--colorBackground);
 }
 
 .Article__actions-home {
   display: flex;
   flex-grow: 1;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: var(--colorBackgroundTransparent);
 }
 
 .Article__actions-menuBar {
@@ -116,7 +101,7 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-bottom: 2px solid black;
+  border-bottom: 1px solid var(--colorFront);
 }
 
 .Article__columns {
@@ -165,7 +150,6 @@ body {
 
 .Article__footer {
   box-sizing: border-box;
-  /* background-color: magenta; */
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -176,11 +160,11 @@ body {
 .Article__readPercentage {
   height: 0.2rem;
   margin-bottom: var(--articlePadding);
-  border: 1px solid black;
+  border: 1px solid var(--colorFront);
 }
 
 .Article__readPercentageBar {
-  background-color: black;
+  background: var(--colorFront);
   height: 100%;
 }
 

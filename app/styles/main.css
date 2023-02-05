@@ -1,0 +1,43 @@
+@import url("https://fonts.googleapis.com/css?family=PT+Serif:normal,bold,bolditalic,italic&display=swap");
+
+:root {
+  font-family: "PT Serif", serif;
+  font-weight: normal;
+
+  color-scheme: light dark;
+
+  --articlePadding: 24px;
+  --articleColumnWidth: 500px;
+  --articleInteractionsZindex: 99;
+  --articleActionsZindex: 99;
+  --mainFontSize: 16px;
+
+  --colorBackground: #fff;
+  --colorFront: #000;
+  --colorBgGrey: #ccc;
+  --colorBackgroundTransparent: #ffffffb3;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --colorBackground: #000;
+    --colorFront: #fff;
+    --colorBgGrey: #333;
+    --colorBackgroundTransparent: #000000b3;
+  }
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: var(--colorBackground);
+  color: var(--colorFront);
+}

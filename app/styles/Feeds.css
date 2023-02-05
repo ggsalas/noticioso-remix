@@ -1,8 +1,5 @@
 html,
 body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
   overflow: hidden;
   width: 100vw;
   height: 100vh;
@@ -16,7 +13,7 @@ body {
 }
 
 .Feeds a {
-  color: black;
+  color: var(--colorFront);
   text-decoration: none;
 }
 
@@ -24,17 +21,17 @@ body {
   flex-direction: column;
   flex-basis: 40%;
   display: flex;
-  background: lightgray;
+  background: var(--colorBgGrey);
   overflow-y: scroll;
 }
 
 .Feeds_list_item-active {
-  background: white;
+  background: var(--colorBackground);
   padding: 0.2em;
 }
 
 .Feeds_list_item {
-  background: lightgray;
+  background: var(--colorBgGrey);
   padding: 0.2em;
 }
 

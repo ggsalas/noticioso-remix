@@ -5,15 +5,20 @@ import {
   Meta,
   Outlet,
   Scripts,
-  ScrollRestoration,
+  // ScrollRestoration,
 } from "@remix-run/react";
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from "@vercel/analytics/react";
+import Main from "./styles/Main.css";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "New Remix App",
+  title: "Noticioso",
   viewport: "width=device-width,initial-scale=1",
 });
+
+export function links() {
+  return [{ rel: "stylesheet", href: Main }];
+}
 
 export default function App() {
   return (
@@ -24,7 +29,7 @@ export default function App() {
       </head>
       <body>
         <Outlet />
-        <ScrollRestoration />
+        {/* <ScrollRestoration /> */}
         <Scripts />
         <LiveReload />
         <Analytics />
