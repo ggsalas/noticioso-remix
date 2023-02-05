@@ -2,19 +2,14 @@ import { PrefetchPageLinks, useLoaderData, useParams } from "@remix-run/react";
 import Article from "~/components/Article";
 import type { LoaderArgs } from "@remix-run/node";
 import ArticleCSS from "~/styles/Article.css";
-import PageTransition from "~/styles/PageLoading.css";
-import { getArticle } from "~/models/article.server";
+import { getArticle } from "~/server/getArticle.server";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getNavigation } from "~/shared/getNavigation";
+import { getArticleNavigation } from "~/components/Article/getArticleNavigation";
 import { useGlobalFont } from "~/shared/useGlobalFont";
-import PageLoading from "~/components/PageLoading";
 
 export function links() {
-  return [
-    { rel: "stylesheet", href: ArticleCSS },
-    { rel: "stylesheet", href: PageTransition },
-  ];
+  return [{ rel: "stylesheet", href: ArticleCSS }];
 }
 
 export const loader = async ({ params }: LoaderArgs) => {
@@ -42,7 +37,7 @@ export default function ArticleUrl() {
   useEffect(() => {
     const articlesTxt = localStorage.getItem(`feedContent-${feedUrl}`);
     const feedsTxt = localStorage.getItem("feeds");
-    const navigation = getNavigation({
+    const navigation = getArticleNavigation({
       feedUrl,
       articleUrl,
       articlesTxt,
@@ -60,7 +55,6 @@ export default function ArticleUrl() {
 
   return (
     <main className="Feed">
-      <PageLoading />
       {navigation.nextUrl && <PrefetchPageLinks page={navigation.nextUrl} />}
       {navigation.prevUrl && <PrefetchPageLinks page={navigation.prevUrl} />}
 

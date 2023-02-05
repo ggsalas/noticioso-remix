@@ -1,14 +1,9 @@
 import type { MetaFunction } from "@remix-run/node";
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  // ScrollRestoration,
-} from "@remix-run/react";
+import { Links, LiveReload, Meta, Outlet, Scripts } from "@remix-run/react";
 import { Analytics } from "@vercel/analytics/react";
-import Main from "./styles/Main.css";
+import PageLoading from "./components/PageLoading";
+import MainStyles from "./styles/Main.css";
+import PageLoadingStyles from "~/styles/PageLoading.css";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -17,7 +12,10 @@ export const meta: MetaFunction = () => ({
 });
 
 export function links() {
-  return [{ rel: "stylesheet", href: Main }];
+  return [
+    { rel: "stylesheet", href: MainStyles },
+    { rel: "stylesheet", href: PageLoadingStyles },
+  ];
 }
 
 export default function App() {
@@ -28,8 +26,8 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <PageLoading />
         <Outlet />
-        {/* <ScrollRestoration /> */}
         <Scripts />
         <LiveReload />
         <Analytics />

@@ -1,7 +1,7 @@
 import type { Readability } from "@mozilla/readability";
 import { useState } from "react";
 import useViewportDimensions from "~/shared/useViewportDimensions";
-import { FontSet } from "./FontSet";
+import { FontSet } from "../FontSet";
 import { useArticleNavigation } from "./useArticleNavigation";
 import { useKeyboardNavigation } from "./useKeyboardNavigation";
 

@@ -9,6 +9,6 @@
 }
 
 .PageLoading__bar {
-  background: black;
+  background: var(--colorFront);
   height: 100%;
 }

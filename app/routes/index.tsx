@@ -16,11 +16,11 @@ export default function Index() {
     >
       <h1>Noticioso</h1>
       <h3>
-        <i>Que tengas buena lectura</i>
+        <i>Aquí habrá un prompt para agregar feeds</i>
       </h3>
 
       <Link to="/feeds">
-        <button>Feeds</button>
+        <button>Leer</button>
       </Link>
     </div>
   );

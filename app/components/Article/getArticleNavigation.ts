@@ -1,6 +1,6 @@
 import type { Article, Feed } from "~/types";
 
-export function getNavigation({
+export function getArticleNavigation({
   feedUrl,
   articleUrl,
   articlesTxt,
