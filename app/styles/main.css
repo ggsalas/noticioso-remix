@@ -7,7 +7,7 @@
   color-scheme: light dark;
 
   --articlePadding: 24px;
-  --articleColumnWidth: 500px;
+  --articleColumnWidth: 600px; /* should match DESIRED_ARTICLE_COLUMN_WIDTH for now */
   --articleInteractionsZindex: 99;
   --articleActionsZindex: 99;
   --mainFontSize: 16px;

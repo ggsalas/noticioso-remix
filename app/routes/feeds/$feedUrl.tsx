@@ -24,7 +24,7 @@ export default function () {
   const {
     // title,
     // link,
-    // desceiption,
+    // description,
     // languae,
     // image,
     item: content,
@@ -38,13 +38,15 @@ export default function () {
   }, [content, feedUrl]);
 
   return (
-    <div>
+    <>
       {content
         ? content.map((item: any) => {
             const {
               title,
               guid,
               link,
+              description,
+              author,
               // pubDate, description, author,
             } = item;
 
@@ -54,13 +56,26 @@ export default function () {
                   feedUrl as string
                 )}/${encodeURIComponent(link)}`}
                 key={guid}
+                className="Feeds__item"
               >
                 <h3>{title}</h3>
-                {/* TODO get only txt and image <div dangerouslySetInnerHTML={{ __html: description }} /> */}
+
+                {author && <p className="Feeds__itemAuthor">{author}</p>}
+
+                {description && (
+                  <p
+                    className="Feeds__itemDescription"
+                    dangerouslySetInnerHTML={{ __html: description }}
+                  />
+                )}
+                {/* <div className="Feeds__itemDescription">
+                    <p>paragraph</p>
+                    nada
+                  </div> */}
               </Link>
             );
           })
         : "no items"}
-    </div>
+    </>
   );
 }
