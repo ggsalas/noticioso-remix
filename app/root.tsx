@@ -2,7 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 import { Links, LiveReload, Meta, Outlet, Scripts } from "@remix-run/react";
 import { Analytics } from "@vercel/analytics/react";
 import PageLoading from "./components/PageLoading";
-import MainStyles from "./styles/Main.css";
+import MainStyles from "./styles/main.css";
 import PageLoadingStyles from "~/styles/PageLoading.css";
 
 export const meta: MetaFunction = () => ({
