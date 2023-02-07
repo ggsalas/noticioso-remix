@@ -21,14 +21,7 @@ export default function () {
   const feedContent = useLoaderData() as LoaderData;
   let { feedUrl } = useParams();
 
-  const {
-    // title,
-    // link,
-    // description,
-    // languae,
-    // image,
-    item: content,
-  } = feedContent.rss.channel;
+  const { item: content } = feedContent.rss.channel;
 
   // to use in the navigation of the feed and article pages
   useEffect(() => {
@@ -37,45 +30,41 @@ export default function () {
     }
   }, [content, feedUrl]);
 
+  // TODO: use a cookie? to allow redirect from the loader
+  if (!content.length || content.length === 0) {
+    return (
+      <div className="Feeds__item">
+        <p className="Feeds__itemNoContent">No content for today</p>
+      </div>
+    );
+  }
+
   return (
     <>
-      {content
-        ? content.map((item: any) => {
-            const {
-              title,
-              guid,
-              link,
-              description,
-              author,
-              // pubDate, description, author,
-            } = item;
+      {content.map((item: any) => {
+        const { title, guid, link, description, author } = item;
 
-            return (
-              <Link
-                to={`/feeds/${encodeURIComponent(
-                  feedUrl as string
-                )}/${encodeURIComponent(link)}`}
-                key={guid}
-                className="Feeds__item"
-              >
-                <h3>{title}</h3>
+        return (
+          <Link
+            to={`/feeds/${encodeURIComponent(
+              feedUrl as string
+            )}/${encodeURIComponent(link)}`}
+            key={guid}
+            className="Feeds__item"
+          >
+            <h3>{title}</h3>
 
-                {author && <p className="Feeds__itemAuthor">{author}</p>}
+            {author && <p className="Feeds__itemAuthor">{author}</p>}
 
-                {description && (
-                  <p
-                    className="Feeds__itemDescription"
-                    dangerouslySetInnerHTML={{ __html: description }}
-                  />
-                )}
-                {/* <div className="Feeds__itemDescription">
-                    <p>paragraph</p>
-                    nada
-                  </div> */}
-              </Link>
-            );
-          })
-        : "no items"}
+            {description && (
+              <p
+                className="Feeds__itemDescription"
+                dangerouslySetInnerHTML={{ __html: description }}
+              />
+            )}
+          </Link>
+        );
+      })}
     </>
   );
 }

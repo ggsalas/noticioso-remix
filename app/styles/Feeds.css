@@ -1,14 +1,11 @@
 html,
 body {
-  overflow: hidden;
   width: 100vw;
-  height: 100vh;
 }
 
 .Feeds {
   display: flex;
   width: 100vw;
-  height: 100vh;
   flex-direction: column;
   align-items: center;
 }
@@ -19,20 +16,25 @@ body {
 }
 
 .Feeds__navigation {
-  padding: var(--articlePadding);
-  border-bottom: 1px solid var(--colorFront);
-  width: calc(100% - (var(--articlePadding) * 2));
+  padding: 0 var(--articlePadding);
   display: flex;
   justify-content: center;
+  width: calc(var(--articleColumnWidth) + var(--articlePadding) * 2);
+  max-width: 100%;
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  background: var(--colorBackground);
 }
 
 .Feeds__content {
-  overflow-y: scroll;
-  padding: 0 var(--articlePadding) var(--articlePadding) var(--articlePadding);
+  padding: 0;
   flex-grow: 1;
-  max-width: var(--articleColumnWidth);
+  width: calc(var(--articleColumnWidth) + var(--articlePadding) * 2);
+  max-width: 100%;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 .Feeds__select {
@@ -40,39 +42,56 @@ body {
   border: none;
   width: 100%;
   font-size: 1rem;
-  line-height: 1rem;
+  height: 1rem;
+  height: calc(1rem + var(--articlePadding) * 2);
   outline: none;
   font-family: "PT Serif", serif;
-  max-width: var(--articleColumnWidth);
+  border-bottom: 1px solid var(--colorFront);
 }
 
 .Feeds__item {
+  padding: var(--articlePadding) 0 0 0;
+  margin: 0 var(--articlePadding);
+}
+
+.Feeds__item:after {
+  content: "";
+  display: block;
+  width: 40%;
+  height: 0px;
+  flex-grow: 0;
   border-bottom: 1px solid var(--colorFront);
-  width: 100%;
-  padding: var(--articlePadding) 0;
+  margin: var(--articlePadding) 30% 0 30%;
 }
 
 .Feeds__item h1,
 .Feeds__item h2,
 .Feeds__item h3,
 .Feeds__item h4 {
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: normal;
+  line-height: 1.1;
   margin: 0;
   font-family: "PT Serif", serif;
 }
 
-.Feeds__item p,
-.Feeds__item span,
-.Feeds__item {
-  font-size: 0.6rem;
-  font-family: sans-serif;
-}
-
 .Feeds__itemAuthor {
   margin: calc(var(--articlePadding) / 4) 0 0 0;
+  font-style: italic;
+  font-family: "PT Serif", serif;
+  font-size: 0.8rem;
+  line-height: 1rem;
 }
 
 .Feeds__itemDescription {
   margin: calc(var(--articlePadding) / 2) 0 0 0;
+  font-size: 0.8rem;
+  line-height: 1rem;
+  font-family: sans-serif;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.Feeds__itemNoContent {
+  text-align: center;
 }
