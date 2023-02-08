@@ -2,13 +2,13 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { exists } from "~/shared/common";
 import { useMeasure } from "~/shared/useMeasure";
 
-export const useArticleNavigation = ({
+export const usePagedNavigation = ({
   content,
   increment,
-  gotoNextArticle,
-  gotoPreviousArticle,
+  onGoNext,
+  onGoPrev,
 }: any) => {
-  const containerRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const { ref: contentRef, width: contentWidth } = useMeasure<HTMLDivElement>([
     "width",
   ]);
@@ -48,11 +48,11 @@ export const useArticleNavigation = ({
     switch (direction) {
       case "next":
         return isArticleEnd
-          ? gotoNextArticle()
+          ? onGoNext()
           : containerElement.scrollTo(scrollLeft + increment, 0);
       case "back":
         return isArticleStart
-          ? gotoPreviousArticle()
+          ? onGoPrev()
           : containerElement.scrollTo(scrollLeft - increment, 0);
       default:
         throw new Error("Scroll direction not supported");

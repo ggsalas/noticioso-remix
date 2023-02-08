@@ -1,15 +1,19 @@
 import { PrefetchPageLinks, useLoaderData, useParams } from "@remix-run/react";
-import Article from "~/components/Article";
+import PagedNavigation from "~/components/PagedNavigation";
+import PagedNavigationStyles from "~/styles/PagedNavigation.css";
 import type { LoaderArgs } from "@remix-run/node";
 import ArticleCSS from "~/styles/Article.css";
 import { getArticle } from "~/server/getArticle.server";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getArticleNavigation } from "~/components/Article/getArticleNavigation";
+import { getArticleNavigation } from "~/shared/getArticleNavigation";
 import { useGlobalFont } from "~/shared/useGlobalFont";
 
 export function links() {
-  return [{ rel: "stylesheet", href: ArticleCSS }];
+  return [
+    { rel: "stylesheet", href: ArticleCSS },
+    { rel: "stylesheet", href: PagedNavigationStyles },
+  ];
 }
 
 export const loader = async ({ params }: LoaderArgs) => {
@@ -53,17 +57,24 @@ export default function ArticleUrl() {
     navigation.prevUrl ? navigate(navigation.prevUrl) : null;
   const onGoToFeed = () => navigate(navigation.feedPageUrl);
 
+  if (!article) return null;
+
   return (
     <main className="Feed">
       {navigation.nextUrl && <PrefetchPageLinks page={navigation.nextUrl} />}
       {navigation.prevUrl && <PrefetchPageLinks page={navigation.prevUrl} />}
 
-      <Article
-        content={article}
+      <PagedNavigation
         onGoNext={onGoNextHandler}
         onGoPrev={onGoPrevHandler}
-        onGoToFeed={onGoToFeed}
-      />
+        onGoToParent={onGoToFeed}
+      >
+        <article>
+          <span className="Article__siteName">{article?.siteName}</span>
+          <h1>{article?.title}</h1>
+          <div dangerouslySetInnerHTML={{ __html: article.content }} />
+        </article>
+      </PagedNavigation>
     </main>
   );
 }

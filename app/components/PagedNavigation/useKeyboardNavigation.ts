@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export function useKeyboardNavigation({
   handlePageNavigation,
-  onGoToFeed,
+  onGoToParent,
   onGoNext,
   onGoPrev,
 }: any) {
@@ -19,7 +19,7 @@ export function useKeyboardNavigation({
           return onGoPrev();
 
         case "Escape":
-          return onGoToFeed();
+          return onGoToParent();
 
         // Scroll
         case "ArrowRight":
