@@ -53,7 +53,6 @@ export default function Feeds() {
     navigate(e.target?.value);
   };
   const onGoNextHandler = () => {
-    debugger;
     navigate(navigation.nextUrl);
   };
   const onGoPrevHandler = () => navigate(navigation.prevUrl);

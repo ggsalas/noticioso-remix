@@ -72,7 +72,7 @@ body {
 .Feeds__item h2,
 .Feeds__item h3,
 .Feeds__item h4 {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: normal;
   line-height: 1.1;
   margin: 0;
@@ -83,14 +83,14 @@ body {
   margin: calc(var(--articlePadding) / 4) 0 0 0;
   font-style: italic;
   font-family: "PT Serif", serif;
-  font-size: 0.8rem;
-  line-height: 1rem;
+  font-size: 0.7rem;
+  line-height: 0.9rem;
 }
 
 .Feeds__itemDescription {
   margin: calc(var(--articlePadding) / 2) 0 0 0;
-  font-size: 0.8rem;
-  line-height: 1rem;
+  font-size: 0.7rem;
+  line-height: 0.9rem;
   font-family: sans-serif;
   text-align: justify;
   hyphens: auto;

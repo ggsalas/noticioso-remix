@@ -4,6 +4,7 @@ import useViewportDimensions from "~/shared/useViewportDimensions";
 import { FontSet } from "../FontSet";
 import { usePagedNavigation } from "./usePagedNavigation";
 import { useKeyboardNavigation } from "./useKeyboardNavigation";
+import { useGesturesNavigation } from "./useGesturesNavigation";
 
 interface PagedNavigationProps {
   children: ReactElement;
@@ -43,19 +44,28 @@ export default function PagedNavigation({
     onGoPrev,
   });
 
+  const toggleActions = () => {
+    setShowActions((actions) => !actions);
+  };
+
   useKeyboardNavigation({
     handlePageNavigation,
     onGoToParent,
     onGoPrev,
     onGoNext,
+    toggleActions,
   });
 
-  const toggleActions = () => {
-    setShowActions((actions) => !actions);
-  };
+  useGesturesNavigation({
+    handlePageNavigation,
+    onGoToParent,
+    onGoPrev,
+    onGoNext,
+    toggleActions,
+  });
 
   return (
-    <div className="PagedNavigation">
+    <div className="PagedNavigation" id="PagedNavigation">
       <style>{` 
         :root { 
           --articleColumnWidth: ${articleColumnWidth}px; 
@@ -86,7 +96,8 @@ export default function PagedNavigation({
               onClick={toggleActions}
             />
           </div>
-        ) : (
+        ) : null}
+        {/* ) : (
           <div className="PagedNavigationContainer__interactions">
             <div
               className="PagedNavigationContainer__interactions-top"
@@ -112,8 +123,8 @@ export default function PagedNavigation({
                 onClick={onGoNext}
               />
             </div>
-          </div>
-        )}
+          </div> 
+        )}*/}
 
         <div className="PagedNavigationContainer__columns">
           {cloneElement(children, { ref: contentRef })}

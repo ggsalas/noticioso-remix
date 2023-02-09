@@ -2,9 +2,9 @@ import { useEffect } from "react";
 
 export function useKeyboardNavigation({
   handlePageNavigation,
+  toggleActions,
   onGoToParent,
   onGoNext,
-  onGoPrev,
 }: any) {
   useEffect(() => {
     function handleKeys(event: any) {
@@ -16,7 +16,7 @@ export function useKeyboardNavigation({
 
         case "ArrowUp":
         case "k":
-          return onGoPrev();
+          return toggleActions();
 
         case "Escape":
           return onGoToParent();
@@ -42,5 +42,5 @@ export function useKeyboardNavigation({
     return () => {
       document.removeEventListener("keydown", handleKeys);
     };
-  }, [handlePageNavigation, onGoNext]);
+  }, [handlePageNavigation, onGoNext, onGoToParent, toggleActions]);
 }

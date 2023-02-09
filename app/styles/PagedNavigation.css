@@ -10,13 +10,14 @@ body {
   flex-direction: column;
   overflow: hidden;
   height: 100%;
+  user-select: none;
 }
 
 .PagedNavigationContainer {
   display: flex;
   justify-content: center;
   overflow: hidden;
-  padding: var(--articlePadding) 0 var(--articlePadding) 0;
+  padding: 0;
   width: var(--articleColumnWidth);
   flex-grow: 1;
 }

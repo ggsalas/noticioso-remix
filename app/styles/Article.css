@@ -7,35 +7,33 @@
   background: var(--colorBackground);
 }
 
-/* All links are disabled */
 .Article a {
   color: var(--colorFront);
   font-weight: normal;
-  text-decoration: none;
-  font-style: italic;
+  text-decoration: underline;
 }
 
-.Article__columns h1 {
+.Article h1 {
   font-size: 1.3rem;
 }
 
-.Article__columns h2 {
+.Article h2 {
   font-size: 1.2rem;
 }
 
-.Article__columns h3 {
+.Article h3 {
   font-size: 1.15rem;
 }
 
-.Article__columns h4 {
+.Article h4 {
   font-size: 1.1rem;
 }
 
-.Article__columns h4 {
+.Article h4 {
   font-size: 1.05rem;
 }
 
-.Article__columns p {
+.Article p {
   font-size: 1rem;
   text-align: justify;
   hyphens: auto;
