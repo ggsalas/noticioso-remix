@@ -1,10 +1,14 @@
 @import url("https://fonts.googleapis.com/css?family=PT+Serif:normal,bold,bolditalic,italic&display=swap");
 
 :root {
-  font-family: "PT Serif", serif;
+  font-family: var(--fontFamilySerif);
   font-weight: normal;
 
   color-scheme: light dark;
+
+  --fontFamilySerif: "PT Serif", serif;
+  --fontFamilySans: sans-serif;
+  --fontSizeSmall: 0.6rem;
 
   --articlePadding: 24px;
   --articleColumnWidth: 600px; /* should match DESIRED_ARTICLE_COLUMN_WIDTH for now */

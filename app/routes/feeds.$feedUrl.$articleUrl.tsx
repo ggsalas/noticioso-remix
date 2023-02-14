@@ -64,13 +64,15 @@ export default function ArticleUrl() {
       {navigation.nextUrl && <PrefetchPageLinks page={navigation.nextUrl} />}
       {navigation.prevUrl && <PrefetchPageLinks page={navigation.prevUrl} />}
 
+      <div className="Article__siteName">
+        {article?.siteName} · {article.title}
+      </div>
       <PagedNavigation
         onGoNext={onGoNextHandler}
         onGoPrev={onGoPrevHandler}
         onGoToParent={onGoToFeed}
       >
         <article className="Article">
-          <span className="Article__siteName">{article?.siteName}</span>
           <h1>{article?.title}</h1>
           <div dangerouslySetInnerHTML={{ __html: article.content }} />
         </article>

@@ -113,7 +113,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  font-family: sans-serif;
+  font-family: var(--fontFamilySans);
 }
 
 .PagedNavigationContainer__readPercentage {
@@ -128,12 +128,12 @@ body {
 }
 
 .PagedNavigationContainer__footerInfo {
-  font-size: 0.75rem;
+  font-size: var(--fontSizeSmall);
   line-height: 1.5rem;
 }
 
 .PagedNavigationContainer__siteName {
-  font-family: sans-serif;
+  font-family: var(--fontFamilySans);
   line-height: 1;
   font-size: 0.75rem;
   margin: 0;
