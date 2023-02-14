@@ -8,7 +8,7 @@
 
   --fontFamilySerif: "PT Serif", serif;
   --fontFamilySans: sans-serif;
-  --fontSizeSmall: 0.6rem;
+  --fontSizeSmall: max(0.6rem, 10px);
 
   --articlePadding: 24px;
   --articleColumnWidth: 600px; /* should match DESIRED_ARTICLE_COLUMN_WIDTH for now */
