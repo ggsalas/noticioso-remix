@@ -69,7 +69,7 @@ export default function PagedNavigation({
         :root { 
           --articleColumnWidth: ${articleColumnWidth}px; 
           --articlePadding: ${ARTICLE_PADDING}px;
-          /* --mobileViewportHeight: ${viewportHeight}px;  fix undefined initial value */
+          --mobileViewportHeight: ${viewportHeight}px;
         } 
       `}</style>
 

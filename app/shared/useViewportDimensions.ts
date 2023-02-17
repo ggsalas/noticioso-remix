@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 
 function getViewportDimensions() {
   const { innerWidth: viewportWidth, innerHeight: viewportHeight } = window;
@@ -17,7 +17,7 @@ export default function useViewportDimensions() {
     viewportHeight: null,
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (window) {
       function handleResize() {
         setWindowDimensions(getViewportDimensions());
