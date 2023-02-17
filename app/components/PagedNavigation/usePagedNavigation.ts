@@ -1,20 +1,28 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { exists } from "~/shared/common";
 import { useMeasure } from "~/shared/useMeasure";
+import { useScrollRestoration } from "./useScrollRestoration";
 
-export const usePagedNavigation = ({
-  content,
-  increment,
-  onGoNext,
-  onGoPrev,
-}: any) => {
+export const usePagedNavigation = ({ increment, onGoNext, onGoPrev }: any) => {
+  const [scrollLeft, setScrollLeft] = useState<number | undefined>();
   const containerRef = useRef<HTMLDivElement>(null);
   const { ref: contentRef, width: contentWidth } = useMeasure<HTMLDivElement>([
     "width",
   ]);
   const containerElement = containerRef.current;
 
-  const [scrollLeft, setScrollLeft] = useState<number | undefined>();
+  useScrollRestoration({ containerElement, scrollLeft });
+
+  useLayoutEffect(() => {
+    if (containerElement) setScrollLeft(containerElement?.scrollLeft);
+  }, [containerElement]);
+
+  // scrollLeft should be in the state to be updated listening the scroll
+  // events of the article element
+  const handleScroll = () => {
+    setScrollLeft(containerElement?.scrollLeft);
+  };
+
   const isArticleEnd = Boolean(
     exists(scrollLeft) &&
       exists(contentWidth) &&
@@ -25,22 +33,6 @@ export const usePagedNavigation = ({
     contentWidth ? ((scrollLeft + increment) / contentWidth) * 100 : 0
   );
   const readPercentage = read > 100 ? 100 : read;
-
-  useLayoutEffect(() => {
-    if (containerElement) setScrollLeft(containerElement?.scrollLeft);
-  }, [containerElement]);
-
-  // if content changes, reset scroll
-  // TODO: save each url scroll (default 0)
-  useLayoutEffect(() => {
-    containerElement && containerElement.scrollTo(0, 0);
-  }, [containerElement, content]);
-
-  // scrollLeft should be in the state to be updated listening the scroll
-  // events of the article element
-  const handleScroll = () => {
-    setScrollLeft(containerElement?.scrollLeft);
-  };
 
   const handlePageNavigation = (direction: "next" | "back") => () => {
     if (!exists(containerElement) || !exists(scrollLeft)) return;
@@ -60,13 +52,10 @@ export const usePagedNavigation = ({
   };
 
   return {
-    isArticleStart,
-    isArticleEnd,
     handleScroll,
     handlePageNavigation,
     readPercentage,
     containerRef,
     contentRef,
-    containerElement,
   };
 };

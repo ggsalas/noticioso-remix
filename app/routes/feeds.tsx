@@ -57,8 +57,6 @@ export default function Feeds() {
   };
   const onGoPrevHandler = () => navigate(navigation.prevUrl);
 
-  console.log(navigation.nextUrl);
-
   return (
     <div className="Feeds">
       {navigation.nextUrl && <PrefetchPageLinks page={navigation.nextUrl} />}
