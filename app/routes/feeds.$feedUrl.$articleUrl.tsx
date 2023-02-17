@@ -51,6 +51,7 @@ export default function ArticleUrl() {
     setNavigation(navigation);
   }, [feedUrl, articleUrl]);
 
+  console.log({ navigation });
   const onGoNextHandler = () =>
     navigation.nextUrl ? navigate(navigation.nextUrl) : null;
   const onGoPrevHandler = () =>

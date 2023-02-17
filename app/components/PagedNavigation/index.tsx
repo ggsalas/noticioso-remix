@@ -56,6 +56,7 @@ export default function PagedNavigation({
   });
 
   useGesturesNavigation({
+    viewportHeight,
     handlePageNavigation,
     onGoToParent,
     onGoPrev,

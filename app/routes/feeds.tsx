@@ -52,9 +52,11 @@ export default function Feeds() {
   const handleFeedSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     navigate(e.target?.value);
   };
+
   const onGoNextHandler = () => {
     navigate(navigation.nextUrl);
   };
+
   const onGoPrevHandler = () => navigate(navigation.prevUrl);
 
   return (

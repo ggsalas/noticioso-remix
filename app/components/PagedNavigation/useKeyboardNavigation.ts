@@ -5,9 +5,29 @@ export function useKeyboardNavigation({
   toggleActions,
   onGoToParent,
   onGoNext,
+  onGoPrev,
 }: any) {
   useEffect(() => {
     function handleKeys(event: any) {
+      /**
+       * esc   toggleActions
+       *
+       * ↑     onGoPrev
+       * k
+       *
+       * ↓     onGoNext
+       * j
+       *
+       * ←     handlePageNavigation(back)
+       * h
+       * del
+       *
+       * →     handlePageNavigation(back)
+       * l
+       * space
+       *
+       */
+
       switch (event.key) {
         // Navigate
         case "ArrowDown":
@@ -16,9 +36,12 @@ export function useKeyboardNavigation({
 
         case "ArrowUp":
         case "k":
-          return toggleActions();
+          return onGoPrev();
 
         case "Escape":
+          return toggleActions();
+
+        case "H":
           return onGoToParent();
 
         // Scroll

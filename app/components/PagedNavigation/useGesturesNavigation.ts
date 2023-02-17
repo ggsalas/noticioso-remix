@@ -4,9 +4,12 @@ const SWIPE_MAX_TIME = 500;
 const SWIPE_MIN_DRAG = 70;
 
 export function useGesturesNavigation({
+  viewportHeight,
   handlePageNavigation,
   onGoNext,
+  onGoPrev,
   toggleActions,
+  onGoToParent,
 }: any) {
   useEffect(() => {
     let touchstartX = 0;
@@ -19,11 +22,13 @@ export function useGesturesNavigation({
     function lastTouch(e: TouchEvent) {
       return e.changedTouches ? e.changedTouches[0] : null;
     }
+
     function touchStart(event: TouchEvent) {
       touchstartX = lastTouch(event)?.screenX ?? 0;
       touchstartY = lastTouch(event)?.screenY ?? 0;
       timeStart = Date.now();
     }
+
     function touchEnd(event: TouchEvent) {
       touchendX = lastTouch(event)?.screenX ?? 0;
       touchendY = lastTouch(event)?.screenY ?? 0;
@@ -41,6 +46,14 @@ export function useGesturesNavigation({
       const isHorizontal = Math.abs(deltaX) > Math.abs(deltaY);
       const leftDirection = deltaX > 0;
       const topDirection = deltaY > 0;
+      const isOnTopArea = touchstartY < viewportHeight / 3;
+
+      /**
+       *  ↓ toggleActions                ↑ onGoToParent
+       *  ----------------------------------------------------------
+       *  ↓ onGoPrev                     ↑ onGoNext
+       *  → handlePageNavigation(back)   ← handlePageNavigation(next)
+       */
 
       if (deltaTime > SWIPE_MAX_TIME || shouldNotSwipe) {
         return;
@@ -52,10 +65,14 @@ export function useGesturesNavigation({
         return handlePageNavigation("back")();
       }
       if (!isHorizontal && topDirection) {
+        if (isOnTopArea) return onGoToParent();
+
         return onGoNext();
       }
       if (!isHorizontal && !topDirection) {
-        return toggleActions();
+        if (isOnTopArea) return toggleActions();
+
+        return onGoPrev();
       }
     }
 
@@ -66,5 +83,12 @@ export function useGesturesNavigation({
       document.removeEventListener("touchstart", touchStart);
       document.removeEventListener("touchend", touchEnd);
     };
-  }, [handlePageNavigation, onGoNext, toggleActions]);
+  }, [
+    handlePageNavigation,
+    onGoNext,
+    onGoPrev,
+    onGoToParent,
+    toggleActions,
+    viewportHeight,
+  ]);
 }
