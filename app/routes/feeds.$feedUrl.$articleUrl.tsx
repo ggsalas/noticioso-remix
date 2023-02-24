@@ -51,7 +51,6 @@ export default function ArticleUrl() {
     setNavigation(navigation);
   }, [feedUrl, articleUrl]);
 
-  console.log({ navigation });
   const onGoNextHandler = () =>
     navigation.nextUrl ? navigate(navigation.nextUrl) : null;
   const onGoPrevHandler = () =>
@@ -68,6 +67,7 @@ export default function ArticleUrl() {
       <div className="Article__siteName">
         {article?.siteName} · {article.title}
       </div>
+
       <PagedNavigation
         onGoNext={onGoNextHandler}
         onGoPrev={onGoPrevHandler}

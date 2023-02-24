@@ -59,6 +59,19 @@ export default function Feeds() {
 
   const onGoPrevHandler = () => navigate(navigation.prevUrl);
 
+  const getTo = (url: string) => `/feeds/${encodeURIComponent(url)}`;
+
+  const getActiveFeedTo = () => {
+    const activeFeed = feeds.find((feed) => {
+      const to = getTo(feed.url);
+      const isActive = location.pathname === to;
+
+      return isActive;
+    });
+
+    return activeFeed ? getTo(activeFeed.url) : "";
+  };
+
   return (
     <div className="Feeds">
       {navigation.nextUrl && <PrefetchPageLinks page={navigation.nextUrl} />}
@@ -69,13 +82,13 @@ export default function Feeds() {
           name="feeds"
           className="Feeds__select"
           onChange={handleFeedSelect}
+          value={getActiveFeedTo()}
         >
-          {feeds.map((feed) => {
-            const to = `/feeds/${encodeURIComponent(feed.url)}`;
-            const isActive = location.pathname === to;
+          {feeds.map((feed, i) => {
+            const to = getTo(feed.url);
 
             return (
-              <option value={to} selected={isActive} key={to}>
+              <option value={to} key={`${i}-${to}`}>
                 {feed.name}
               </option>
             );
