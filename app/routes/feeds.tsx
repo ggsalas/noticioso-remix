@@ -25,10 +25,20 @@ export function links() {
   ];
 }
 
+export function headers({ loaderHeaders }: { loaderHeaders: Headers }) {
+  return {
+    "Cache-Control": loaderHeaders.get("Cache-Control"),
+  };
+}
+
 export const loader: LoaderFunction = async () => {
   const feeds = await getFeeds();
 
-  return json<LoaderData>(feeds);
+  let headers = {
+    "Cache-Control": "max-age=3600", // 1 hour
+  };
+
+  return json<LoaderData>(feeds, { headers });
 };
 
 export default function Feeds() {

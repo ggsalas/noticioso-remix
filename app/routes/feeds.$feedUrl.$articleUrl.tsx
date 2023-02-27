@@ -2,12 +2,14 @@ import { PrefetchPageLinks, useLoaderData, useParams } from "@remix-run/react";
 import PagedNavigation from "~/components/PagedNavigation";
 import PagedNavigationStyles from "~/styles/PagedNavigation.css";
 import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import ArticleCSS from "~/styles/Article.css";
 import { getArticle } from "~/server/getArticle.server";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getArticleNavigation } from "~/shared/getArticleNavigation";
 import { useGlobalFont } from "~/shared/useGlobalFont";
+import type { Readability } from "@mozilla/readability";
 
 export function links() {
   return [
@@ -16,11 +18,21 @@ export function links() {
   ];
 }
 
+export function headers({ loaderHeaders }: { loaderHeaders: Headers }) {
+  return {
+    "Cache-Control": loaderHeaders.get("Cache-Control"),
+  };
+}
+
 export const loader = async ({ params }: LoaderArgs) => {
   if (!params.articleUrl) return;
   const article = await getArticle(params.articleUrl);
 
-  return article;
+  let headers = {
+    "Cache-Control": "max-age=86400", // 1 day
+  };
+
+  return json<ReturnType<Readability["parse"]>>(article, { headers });
 };
 
 export default function ArticleUrl() {

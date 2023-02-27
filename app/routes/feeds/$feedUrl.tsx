@@ -7,12 +7,22 @@ import { getFeedContent } from "~/server/getFeedContent.server";
 
 type LoaderData = Awaited<ReturnType<typeof getFeedContent>>;
 
+export function headers({ loaderHeaders }: { loaderHeaders: Headers }) {
+  return {
+    "Cache-Control": loaderHeaders.get("Cache-Control"),
+  };
+}
+
 export const loader = async ({ params }: LoaderArgs) => {
   if (!params.feedUrl) return;
 
   const feedContent = await getFeedContent(params.feedUrl);
 
-  return feedContent ? json<LoaderData>(feedContent) : null;
+  let headers = {
+    "Cache-Control": "max-age=3600", // 1 hour
+  };
+
+  return json<LoaderData>(feedContent ?? null, { headers });
 };
 
 // TODO: fetch feed and render as columns
