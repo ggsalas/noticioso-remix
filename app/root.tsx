@@ -20,7 +20,7 @@ export function links() {
 
 export default function App() {
   return (
-    <html lang="en">
+    <html lang="es">
       <head>
         <Meta />
         <Links />

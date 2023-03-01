@@ -57,12 +57,12 @@ body {
   display: block;
   page-break-inside: avoid;
   border-bottom: 1px solid;
-  border-image: radial-gradient(
-      ellipse at center,
-      var(--colorBackground) 20%,
-      var(--colorFront) 20%,
-      var(--colorFront) 80%,
-      var(--colorBackground) 80%
+  border-image: linear-gradient(
+      90deg,
+      var(--colorBackground) 25%,
+      var(--colorFront) 25%,
+      var(--colorFront) 75%,
+      var(--colorBackground) 75%
     )
     1;
 }
@@ -72,7 +72,7 @@ body {
 .Feeds__item h3,
 .Feeds__item h4 {
   font-size: 1rem;
-  font-weight: normal;
+  font-weight: bold;
   line-height: 1.1;
   margin: 0;
   font-family: var(--fontFamilySerif);

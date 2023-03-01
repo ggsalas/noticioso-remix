@@ -21,7 +21,8 @@
 }
 
 .Article h3 {
-  font-size: 1rem;
+  font-size: 1.2rem;
+  font-weight: normal;
 }
 
 .Article h4 {
@@ -29,9 +30,12 @@
   font-weight: bold;
 }
 
-.Article p {
+.Article p,
+.Article ul,
+.Article ol {
   font-size: 1rem;
   text-align: justify;
+  text-align-last: left;
   hyphens: auto;
 }
 
@@ -40,16 +44,17 @@
 .Article h3,
 .Article h4,
 .Article h5 {
-  margin: 0 0 1.4em 0;
+  line-height: 1.2em;
+  margin: 0 0 1em 0;
 }
 
 .Article figcaption {
-  font-size: var(--fontSizeSmall);
+  font-size: 0.8rem;
   font-style: italic;
 }
 
 .Article img {
-  filter: saturate(0.75) brightness(0.85);
+  filter: saturate(0.45) brightness(1.15);
 }
 
 .Article__siteName {
@@ -65,4 +70,10 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   margin: var(--articlePadding) 0 calc(var(--articlePadding) / 2) 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .Article img {
+    filter: saturate(0.75) brightness(0.85);
+  }
 }
