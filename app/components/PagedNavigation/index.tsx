@@ -66,13 +66,15 @@ export default function PagedNavigation({
 
   return (
     <div className="PagedNavigation" id="PagedNavigation">
-      <style>{` 
+      {articleColumnWidth && viewportHeight && (
+        <style>{` 
         :root { 
           --articleColumnWidth: ${articleColumnWidth}px; 
           --articlePadding: ${ARTICLE_PADDING}px;
           --mobileViewportHeight: ${viewportHeight}px;
         } 
       `}</style>
+      )}
 
       <div
         className="PagedNavigationContainer"

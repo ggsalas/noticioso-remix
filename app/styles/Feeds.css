@@ -52,20 +52,19 @@ body {
 }
 
 .Feeds__item {
-  padding: var(--articlePadding) 0 0 0;
+  padding: var(--articlePadding) 0;
   margin: 0;
   display: block;
   page-break-inside: avoid;
-}
-
-.Feeds__item:after {
-  content: "";
-  display: block;
-  width: 40%;
-  height: 0px;
-  flex-grow: 0;
-  border-bottom: 1px solid var(--colorFront);
-  margin: var(--articlePadding) 30% 0 30%;
+  border-bottom: 1px solid;
+  border-image: radial-gradient(
+      ellipse at center,
+      var(--colorBackground) 20%,
+      var(--colorFront) 20%,
+      var(--colorFront) 80%,
+      var(--colorBackground) 80%
+    )
+    1;
 }
 
 .Feeds__item h1,

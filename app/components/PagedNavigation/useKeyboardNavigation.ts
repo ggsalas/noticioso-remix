@@ -42,7 +42,7 @@ export function useKeyboardNavigation({
           return toggleActions();
 
         case "H":
-          return onGoToParent();
+          return onGoToParent && onGoToParent();
 
         // Scroll
         case "ArrowRight":
