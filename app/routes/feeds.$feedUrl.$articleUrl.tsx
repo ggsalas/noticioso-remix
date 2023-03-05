@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { getArticleNavigation } from "~/shared/getArticleNavigation";
 import { useGlobalFont } from "~/shared/useGlobalFont";
 import type { Readability } from "@mozilla/readability";
+import { useSetLanguage } from "~/shared/useSetLanguage";
 
 export function links() {
   return [
@@ -38,6 +39,8 @@ export const loader = async ({ params }: LoaderArgs) => {
 export default function ArticleUrl() {
   useGlobalFont();
   const article = useLoaderData<typeof loader>();
+  console.log((article as any).lang);
+  useSetLanguage((article as any).lang);
   let { feedUrl = "", articleUrl = "" } = useParams();
   const navigate = useNavigate();
   const [navigation, setNavigation] = useState<{

@@ -129,7 +129,8 @@ body {
 
 .PagedNavigationContainer__footerInfo {
   font-size: var(--fontSizeSmall);
-  line-height: 1.5rem;
+  line-height: var(--fontSizeSmall);
+  padding: var(--articlePadding) 0 calc(var(--articlePadding) / 4) 0;
 }
 
 .PagedNavigationContainer__siteName {

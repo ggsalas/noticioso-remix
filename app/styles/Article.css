@@ -46,15 +46,26 @@
 .Article h5 {
   line-height: 1.2em;
   margin: 0 0 1em 0;
+  display: inline-block;
+  text-align: left;
 }
 
 .Article figcaption {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-style: italic;
+  margin-top: -0.5em;
+  margin-bottom: 1em;
 }
 
 .Article img {
   filter: saturate(0.45) brightness(1.15);
+}
+
+.Article code,
+.Article pre {
+  font-size: 0.85rem;
+  font-family: var(--fontFamilyMono), SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
 }
 
 .Article__siteName {
@@ -69,7 +80,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin: var(--articlePadding) 0 calc(var(--articlePadding) / 2) 0;
+  margin: var(--articlePadding) 0 calc(var(--articlePadding)) 0;
 }
 
 @media (prefers-color-scheme: dark) {
