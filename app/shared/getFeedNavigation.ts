@@ -2,20 +2,18 @@ import type { Feed } from "~/types";
 
 export function getFeedNavigation({
   feedUrl,
-  feedsTxt,
+  feeds,
 }: {
-  feedUrl: string | null;
-  feedsTxt: string | null;
+  feedUrl?: string | null;
+  feeds?: any;
 }) {
-  if (!feedUrl || !feedsTxt)
+  if (!feedUrl || !feeds)
     return {
       nextUrl: "#",
       prevUrl: "#",
       feedPageUrl: "#",
     };
 
-  // Get feed list and create urls for next and previous feed
-  const feeds = feedsTxt ? JSON.parse(feedsTxt) : null;
   const getFeedUrl = (feedUrl: string) =>
     `/feeds/${encodeURIComponent(feedUrl)}`;
 
@@ -30,5 +28,6 @@ export function getFeedNavigation({
   return {
     nextUrl: getFeedUrl(feeds[nextFeedIndex].url),
     prevUrl: getFeedUrl(feeds[prevFeedIndex].url),
+    currentFeed: getFeedUrl(feeds[currentFeedIndex].url),
   };
 }

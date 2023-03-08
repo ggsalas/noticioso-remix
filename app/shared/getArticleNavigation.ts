@@ -4,14 +4,14 @@ export function getArticleNavigation({
   feedUrl,
   articleUrl,
   articlesTxt,
-  feedsTxt,
+  feedsNavigation,
 }: {
   feedUrl: string | null;
   articleUrl: string | null;
   articlesTxt: string | null;
-  feedsTxt: string | null;
+  feedsNavigation: any;
 }) {
-  if (!feedUrl || !articleUrl || !feedsTxt || !articlesTxt)
+  if (!feedUrl || !articleUrl || !feedsNavigation || !articlesTxt)
     return {
       nextUrl: "#",
       prevUrl: "#",
@@ -31,32 +31,16 @@ export function getArticleNavigation({
   const prevArticleIndex =
     currentArticleIndex > 0 ? currentArticleIndex - 1 : false;
 
-  // Get feed list and create urls for next and previous feed
-  const feeds = feedsTxt ? JSON.parse(feedsTxt) : null;
-  const getFeedUrl = (feedUrl: string) =>
-    `/feeds/${encodeURIComponent(feedUrl)}`;
-
-  const currentFeedIndex = feeds.findIndex(
-    (feed: Feed) => feed.url === feedUrl
-  );
-  const nextFeedIndex =
-    currentFeedIndex < feeds.length - 1 ? currentFeedIndex + 1 : false;
-  const prevFeedIndex = currentFeedIndex > 0 ? currentFeedIndex - 1 : false;
-
   // Go to: scroll -> next article -> next feed
   return {
     nextUrl:
       nextArticleIndex !== false
         ? getArtileUrl(articles[nextArticleIndex].link)
-        : nextFeedIndex !== false
-        ? getFeedUrl(feeds[nextFeedIndex].url)
-        : undefined,
+        : feedsNavigation.nextUrl,
     prevUrl:
       prevArticleIndex !== false
         ? getArtileUrl(articles[prevArticleIndex].link)
-        : prevFeedIndex !== false
-        ? getFeedUrl(feeds[prevFeedIndex].url)
-        : undefined,
-    feedPageUrl: getFeedUrl(feeds[currentFeedIndex].url),
+        : feedsNavigation.prevUrl,
+    feedPageUrl: feedsNavigation.currentFeed,
   };
 }

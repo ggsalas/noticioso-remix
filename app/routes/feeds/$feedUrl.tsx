@@ -1,11 +1,14 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Link, useParams } from "@remix-run/react";
+import { Link, PrefetchPageLinks, useParams } from "@remix-run/react";
 import { useEffect } from "react";
 import { useLoaderData } from "react-router";
 import { getFeedContent } from "~/server/getFeedContent.server";
+import { getNextFeedWithContentUrl } from "~/server/getNextFeedWithContent";
 
-type LoaderData = Awaited<ReturnType<typeof getFeedContent>>;
+type LoaderData = Awaited<ReturnType<typeof getFeedContent>> & {
+  nextFeedWithContentUrl?: string;
+};
 
 export function headers({ loaderHeaders }: { loaderHeaders: Headers }) {
   return {
@@ -16,18 +19,24 @@ export function headers({ loaderHeaders }: { loaderHeaders: Headers }) {
 export const loader = async ({ params }: LoaderArgs) => {
   if (!params.feedUrl) return;
 
-  const feedContent = await getFeedContent(params.feedUrl);
+  const feedContent: LoaderData = await getFeedContent(params.feedUrl);
+  const content = feedContent.rss.channel.item;
 
-  let headers = {
-    "Cache-Control": "max-age=3600", // 1 hour
-  };
+  // Add nextFeedWithContentUrl to allow avoid useless navigation on many empty feeds
+  if (!content.length || content.length === 0) {
+    feedContent.nextFeedWithContentUrl = await getNextFeedWithContentUrl(
+      params.feedUrl
+    );
+  }
 
-  return json<LoaderData>(feedContent ?? null, { headers });
+  return json<LoaderData>(feedContent ?? null, {
+    headers: {
+      "Cache-Control": "max-age=3600", // 1 hour
+    },
+  });
 };
 
-// TODO: fetch feed and render as columns
-// save scroll (horizontal) position to remember on come back later
-export default function () {
+export default function FeedUrl() {
   const feedContent = useLoaderData() as LoaderData;
   let { feedUrl } = useParams();
 
@@ -40,7 +49,24 @@ export default function () {
     }
   }, [content, feedUrl]);
 
-  // TODO: use a cookie? to allow redirect from the loader
+  // Offers a link to the next feed with content to avoid multiple useless navigation
+  if (feedContent.nextFeedWithContentUrl) {
+    return (
+      <div className="Feeds__item">
+        <PrefetchPageLinks page={feedContent.nextFeedWithContentUrl} />
+
+        <div className="Feeds__itemNoContent">
+          <p>No content for today</p>
+
+          <Link to={feedContent.nextFeedWithContentUrl}>
+            <button>Ir a la siguiente sección con contenido</button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  // If nextFeedWithContentUrl fails, show only the alert
   if (!content.length || content.length === 0) {
     return (
       <div className="Feeds__item">

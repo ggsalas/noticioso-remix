@@ -1,7 +1,6 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderArgs, LoaderFunction } from "@remix-run/node";
 import { PrefetchPageLinks, useParams } from "@remix-run/react";
 import type { ChangeEvent } from "react";
-import { useEffect } from "react";
 import {
   json,
   Outlet,
@@ -15,8 +14,12 @@ import { getFeeds } from "~/server/getFeeds.server";
 import { useGlobalFont } from "~/shared/useGlobalFont";
 import FeedsCSS from "~/styles/Feeds.css";
 import { getFeedNavigation } from "~/shared/getFeedNavigation";
+import type { Feed } from "~/types";
 
-type LoaderData = Awaited<ReturnType<typeof getFeeds>>;
+type LoaderData = Awaited<{
+  feeds: Feed[];
+  navigation?: any;
+}>;
 
 export function links() {
   return [
@@ -31,33 +34,25 @@ export function headers({ loaderHeaders }: { loaderHeaders: Headers }) {
   };
 }
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ params }: LoaderArgs) => {
   const feeds = await getFeeds();
+  const navigation = getFeedNavigation({
+    feedUrl: params.feedUrl,
+    feeds,
+  });
 
   let headers = {
     "Cache-Control": "max-age=3600", // 1 hour
   };
 
-  return json<LoaderData>(feeds, { headers });
+  return json<LoaderData>({ feeds, navigation }, { headers });
 };
 
 export default function Feeds() {
   useGlobalFont();
-  const feeds = useLoaderData() as LoaderData;
+  const { feeds, navigation } = useLoaderData() as LoaderData;
   const location = useLocation();
   const navigate = useNavigate();
-  let { feedUrl = "" } = useParams();
-  const navigation = getFeedNavigation({
-    feedUrl,
-    feedsTxt: JSON.stringify(feeds),
-  });
-
-  // to use in the navigation of the feed and article pages
-  useEffect(() => {
-    if (feeds) {
-      localStorage.setItem("feeds", JSON.stringify(feeds));
-    }
-  }, [feeds]);
 
   const handleFeedSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     navigate(e.target?.value);

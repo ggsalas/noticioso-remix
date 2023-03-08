@@ -11,6 +11,8 @@ import { getArticleNavigation } from "~/shared/getArticleNavigation";
 import { useGlobalFont } from "~/shared/useGlobalFont";
 import type { Readability } from "@mozilla/readability";
 import { useSetLanguage } from "~/shared/useSetLanguage";
+import { getFeeds } from "~/server/getFeeds.server";
+import { getFeedNavigation } from "~/shared/getFeedNavigation";
 
 export function links() {
   return [
@@ -25,22 +27,37 @@ export function headers({ loaderHeaders }: { loaderHeaders: Headers }) {
   };
 }
 
+type LoaderData = Awaited<{
+  article: ReturnType<Readability["parse"]>;
+  lang?: string;
+  feedsNavigation: any;
+}>;
+
 export const loader = async ({ params }: LoaderArgs) => {
   if (!params.articleUrl) return;
   const article = await getArticle(params.articleUrl);
+  const feeds = await getFeeds();
+  const navigation = getFeedNavigation({
+    feedUrl: params.feedUrl,
+    feeds,
+  });
+
+  const feed = feeds.find((f) => f.url === params.feedUrl);
 
   let headers = {
     "Cache-Control": "max-age=86400", // 1 day
   };
 
-  return json<ReturnType<Readability["parse"]>>(article, { headers });
+  return json<LoaderData>(
+    { article, lang: feed?.url, feedsNavigation: navigation },
+    { headers }
+  );
 };
 
 export default function ArticleUrl() {
   useGlobalFont();
-  const article = useLoaderData<typeof loader>();
-  console.log((article as any).lang);
-  useSetLanguage((article as any).lang);
+  const { article, lang, feedsNavigation } = useLoaderData();
+  useSetLanguage(lang);
   let { feedUrl = "", articleUrl = "" } = useParams();
   const navigate = useNavigate();
   const [navigation, setNavigation] = useState<{
@@ -55,16 +72,15 @@ export default function ArticleUrl() {
 
   useEffect(() => {
     const articlesTxt = localStorage.getItem(`feedContent-${feedUrl}`);
-    const feedsTxt = localStorage.getItem("feeds");
     const navigation = getArticleNavigation({
       feedUrl,
       articleUrl,
       articlesTxt,
-      feedsTxt,
+      feedsNavigation,
     });
 
     setNavigation(navigation);
-  }, [feedUrl, articleUrl]);
+  }, [feedUrl, articleUrl, feedsNavigation]);
 
   const onGoNextHandler = () =>
     navigation.nextUrl ? navigate(navigation.nextUrl) : null;
