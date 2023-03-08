@@ -71,7 +71,6 @@ export default function PagedNavigation({
         :root { 
           --articleColumnWidth: ${articleColumnWidth}px; 
           --articlePadding: ${ARTICLE_PADDING}px;
-          --mobileViewportHeight: ${viewportHeight}px;
         } 
       `}</style>
       )}
@@ -99,34 +98,6 @@ export default function PagedNavigation({
             />
           </div>
         ) : null}
-        {/* ) : (
-          <div className="PagedNavigationContainer__interactions">
-            <div
-              className="PagedNavigationContainer__interactions-top"
-              onClick={toggleActions}
-            />
-            <div className="PagedNavigationContainer__interactions-center">
-              <div
-                className="PagedNavigationContainer__interactions-back"
-                onClick={handlePageNavigation("back")}
-              />
-              <div
-                className="PagedNavigationContainer__interactions-next"
-                onClick={handlePageNavigation("next")}
-              />
-            </div>
-            <div className="PagedNavigationContainer__interactions-bottom">
-              <div
-                className="PagedNavigationContainer__interactions-bottom-back"
-                onClick={onGoPrev}
-              />
-              <div
-                className="PagedNavigationContainer__interactions-bottom-next"
-                onClick={onGoNext}
-              />
-            </div>
-          </div> 
-        )}*/}
 
         <div className="PagedNavigationContainer__columns">
           {cloneElement(children, { ref: contentRef })}
