@@ -1,11 +1,11 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const DEFAULT_FONT_SIZE = 16;
 
 export function useGlobalFont() {
   const [fontSize, setFontSize] = useState<number | null>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const fontSizeLS = localStorage.getItem(`globalFontSize`);
     const fontSize = fontSizeLS && JSON.parse(fontSizeLS);
 

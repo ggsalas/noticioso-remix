@@ -1,19 +1,22 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { exists } from "~/shared/common";
 import { useMeasure } from "~/shared/useMeasure";
+import { useCssSizes } from "./useCssSizes";
 import { useScrollRestoration } from "./useScrollRestoration";
 
-export const usePagedNavigation = ({ increment, onGoNext, onGoPrev }: any) => {
+export const usePagedNavigation = ({ onGoNext, onGoPrev }: any) => {
   const [scrollLeft, setScrollLeft] = useState<number | undefined>();
   const containerRef = useRef<HTMLDivElement>(null);
   const { ref: contentRef, width: contentWidth } = useMeasure<HTMLDivElement>([
     "width",
   ]);
   const containerElement = containerRef.current;
+  const cssValues = useCssSizes(containerElement);
+  const increment = cssValues.increment;
 
   useScrollRestoration({ containerElement, scrollLeft });
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (containerElement) setScrollLeft(containerElement?.scrollLeft);
   }, [containerElement]);
 
@@ -30,7 +33,9 @@ export const usePagedNavigation = ({ increment, onGoNext, onGoPrev }: any) => {
   );
   const isArticleStart = Boolean(scrollLeft === 0);
   const read = Math.ceil(
-    contentWidth ? ((scrollLeft + increment) / contentWidth) * 100 : 0
+    contentWidth && exists(scrollLeft)
+      ? ((scrollLeft + increment) / contentWidth) * 100
+      : 0
   );
   const readPercentage = read > 100 ? 100 : read;
 
@@ -57,5 +62,6 @@ export const usePagedNavigation = ({ increment, onGoNext, onGoPrev }: any) => {
     readPercentage,
     containerRef,
     contentRef,
+    cssValues,
   };
 };

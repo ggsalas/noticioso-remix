@@ -1,6 +1,5 @@
 import type { ReactElement } from "react";
 import { cloneElement, useState } from "react";
-import useViewportDimensions from "~/shared/useViewportDimensions";
 import { FontSet } from "../FontSet";
 import { usePagedNavigation } from "./usePagedNavigation";
 import { useKeyboardNavigation } from "./useKeyboardNavigation";
@@ -13,9 +12,6 @@ interface PagedNavigationProps {
   onGoToParent?: () => void;
 }
 
-const DESIRED_ARTICLE_COLUMN_WIDTH = 600;
-const ARTICLE_PADDING = 24;
-
 export default function PagedNavigation({
   children,
   onGoNext,
@@ -23,13 +19,6 @@ export default function PagedNavigation({
   onGoToParent,
 }: PagedNavigationProps) {
   const [showActions, setShowActions] = useState(false);
-  const { viewportWidth, viewportHeight } = useViewportDimensions();
-  const articleColumnWidth = !viewportWidth
-    ? DESIRED_ARTICLE_COLUMN_WIDTH // on server render for now
-    : viewportWidth > DESIRED_ARTICLE_COLUMN_WIDTH + ARTICLE_PADDING * 2
-    ? DESIRED_ARTICLE_COLUMN_WIDTH
-    : viewportWidth - ARTICLE_PADDING * 2;
-  const increment = articleColumnWidth + ARTICLE_PADDING;
 
   const {
     handleScroll,
@@ -37,8 +26,8 @@ export default function PagedNavigation({
     containerRef,
     contentRef,
     handlePageNavigation,
+    cssValues,
   } = usePagedNavigation({
-    increment,
     onGoNext,
     onGoPrev,
   });
@@ -56,7 +45,7 @@ export default function PagedNavigation({
   });
 
   useGesturesNavigation({
-    viewportHeight,
+    viewportHeight: cssValues.viewportHeight,
     handlePageNavigation,
     onGoToParent,
     onGoPrev,
@@ -66,15 +55,6 @@ export default function PagedNavigation({
 
   return (
     <div className="PagedNavigation" id="PagedNavigation">
-      {articleColumnWidth && viewportHeight && (
-        <style>{` 
-        :root { 
-          --articleColumnWidth: ${articleColumnWidth}px; 
-          --articlePadding: ${ARTICLE_PADDING}px;
-        } 
-      `}</style>
-      )}
-
       <div
         className="PagedNavigationContainer"
         ref={containerRef}

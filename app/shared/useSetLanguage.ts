@@ -1,10 +1,9 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect } from "react";
 
 export function useSetLanguage(language?: string) {
-  useLayoutEffect(() => {
+  useEffect(() => {
     const html = document.querySelector("html");
 
-    console.log(html, language);
     language && html?.setAttribute("lang", language);
   }, [language]);
 }

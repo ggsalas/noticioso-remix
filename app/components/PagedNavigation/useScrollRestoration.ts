@@ -1,5 +1,5 @@
 import { useLocation } from "@remix-run/react";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { exists } from "~/shared/common";
 
 export function useScrollRestoration({ containerElement, scrollLeft }: any) {
@@ -8,7 +8,7 @@ export function useScrollRestoration({ containerElement, scrollLeft }: any) {
   // Scroll restoration - on page changes
   // - to  a saved position
   // - to the start (0, 0)
-  useLayoutEffect(() => {
+  useEffect(() => {
     const pagesScroll = localStorage.getItem(
       `pagedNavigationScroll-${encodeURIComponent(location.pathname)}`
     );

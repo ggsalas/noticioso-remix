@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
-/* @import url("https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,700;1,400;1,700&display=swap"); */
 
 :root {
   font-family: var(--fontFamilySerif);
@@ -13,7 +12,12 @@
   --fontSizeSmall: max(0.6rem, 10px);
 
   --articlePadding: 24px;
-  --articleColumnWidth: 600px; /* should match DESIRED_ARTICLE_COLUMN_WIDTH for now */
+  --articleMaxColumn: 600px;
+  --articleColumnWidth: clamp(
+    200px,
+    calc(100dvw - var(--articlePadding) - var(--articlePadding)),
+    var(--articleMaxColumn)
+  );
   --articleInteractionsZindex: 99;
   --articleActionsZindex: 99;
   --mainFontSize: 16px;
