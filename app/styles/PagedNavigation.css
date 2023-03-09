@@ -19,7 +19,7 @@ body {
   flex-grow: 1;
   justify-content: center;
   overflow-y: hidden;
-  overflow-x: scroll;
+  overflow-x: hidden;
   padding: 0;
   width: var(--articleColumnWidth);
 }

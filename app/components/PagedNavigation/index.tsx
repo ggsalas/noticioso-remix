@@ -4,6 +4,7 @@ import { FontSet } from "../FontSet";
 import { usePagedNavigation } from "./usePagedNavigation";
 import { useKeyboardNavigation } from "./useKeyboardNavigation";
 import { useGesturesNavigation } from "./useGesturesNavigation";
+import { useContainerValues } from "./useContainerValues";
 
 interface PagedNavigationProps {
   children: ReactElement;
@@ -20,17 +21,16 @@ export default function PagedNavigation({
 }: PagedNavigationProps) {
   const [showActions, setShowActions] = useState(false);
 
-  const {
-    handleScroll,
-    readPercentage,
-    containerRef,
-    contentRef,
-    handlePageNavigation,
-    cssValues,
-  } = usePagedNavigation({
-    onGoNext,
-    onGoPrev,
-  });
+  const { containerRef, containerElement, containerValues } =
+    useContainerValues();
+
+  const { handleScroll, readPercentage, contentRef, handlePageNavigation } =
+    usePagedNavigation({
+      onGoNext,
+      onGoPrev,
+      containerElement,
+      containerValues,
+    });
 
   const toggleActions = () => {
     setShowActions((actions) => !actions);
@@ -45,7 +45,7 @@ export default function PagedNavigation({
   });
 
   useGesturesNavigation({
-    viewportHeight: cssValues.viewportHeight,
+    viewportHeight: containerValues.viewportHeight,
     handlePageNavigation,
     onGoToParent,
     onGoPrev,

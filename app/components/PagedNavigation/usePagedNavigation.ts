@@ -1,18 +1,19 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { exists } from "~/shared/common";
 import { useMeasure } from "~/shared/useMeasure";
-import { useCssSizes } from "./useCssSizes";
 import { useScrollRestoration } from "./useScrollRestoration";
 
-export const usePagedNavigation = ({ onGoNext, onGoPrev }: any) => {
+export const usePagedNavigation = ({
+  onGoNext,
+  onGoPrev,
+  containerElement,
+  containerValues,
+}: any) => {
   const [scrollLeft, setScrollLeft] = useState<number | undefined>();
-  const containerRef = useRef<HTMLDivElement>(null);
   const { ref: contentRef, width: contentWidth } = useMeasure<HTMLDivElement>([
     "width",
   ]);
-  const containerElement = containerRef.current;
-  const cssValues = useCssSizes(containerElement);
-  const increment = cssValues.increment;
+  const increment = containerValues.increment;
 
   useScrollRestoration({ containerElement, scrollLeft });
 
@@ -60,8 +61,6 @@ export const usePagedNavigation = ({ onGoNext, onGoPrev }: any) => {
     handleScroll,
     handlePageNavigation,
     readPercentage,
-    containerRef,
     contentRef,
-    cssValues,
   };
 };
