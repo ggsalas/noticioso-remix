@@ -38,8 +38,8 @@ export async function getFeedContent(url: string): Promise<Feed> {
     const res = await axios.get(url, { responseType: "text" });
     const parser = new XMLParser();
     let feed = parser.parse(res.data);
-    const today = new Date();
-    today.setHours(0, 0, 0);
+    const currentTime = new Date().getTime();
+    const date24HoursAgo = new Date(currentTime - 24 * 60 * 60 * 1000);
 
     const items = feed.rss.channel.item
       // Get description as plain text
@@ -55,11 +55,21 @@ export async function getFeedContent(url: string): Promise<Feed> {
       // Get only news from today
       .filter((item: Item) => {
         const itemDate = new Date(Date.parse(item.pubDate)); // is converted to Arg Standard Time
-        const isFromToday = itemDate.getTime() > today.getTime();
+        const isFromLast24Hs = itemDate.getTime() > date24HoursAgo.getTime();
 
-        return isFromToday;
+        console.log(`feed: ${feed.rss.channel.title}
+        date: ${itemDate},
+        24hs: ${date24HoursAgo}
+        isFromToday: ${isFromLast24Hs}
+        `);
+        return isFromLast24Hs;
       });
 
+    console.log(
+      "............................ items of ",
+      feed.rss.channel.title,
+      items.length
+    );
     feed.rss.channel.item = items;
     return feed;
   } catch (error) {

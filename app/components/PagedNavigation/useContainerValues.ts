@@ -34,6 +34,7 @@ export function useContainerValues() {
       const articleColumnWidth = getValue("width", elementStyles);
       const articlePadding = getValue("--articlePadding", elementStyles);
 
+      console.log({ articleColumnWidth, articlePadding });
       setContainerValues({
         articleColumnWidth,
         articlePadding,

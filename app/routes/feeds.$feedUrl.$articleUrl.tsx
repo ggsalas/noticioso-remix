@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 import { getArticleNavigation } from "~/shared/getArticleNavigation";
 import { useGlobalFont } from "~/shared/useGlobalFont";
 import type { Readability } from "@mozilla/readability";
-import { useSetLanguage } from "~/shared/useSetLanguage";
 import { getFeeds } from "~/server/getFeeds.server";
 import { getFeedNavigation } from "~/shared/getFeedNavigation";
 
@@ -49,7 +48,7 @@ export const loader = async ({ params }: LoaderArgs) => {
   };
 
   return json<LoaderData>(
-    { article, lang: feed?.url, feedsNavigation: navigation },
+    { article, lang: feed?.lang, feedsNavigation: navigation },
     { headers }
   );
 };
@@ -57,7 +56,6 @@ export const loader = async ({ params }: LoaderArgs) => {
 export default function ArticleUrl() {
   useGlobalFont();
   const { article, lang, feedsNavigation } = useLoaderData();
-  useSetLanguage(lang);
   let { feedUrl = "", articleUrl = "" } = useParams();
   const navigate = useNavigate();
   const [navigation, setNavigation] = useState<{
@@ -91,7 +89,7 @@ export default function ArticleUrl() {
   if (!article) return null;
 
   return (
-    <main className="Feed">
+    <main className="Feed" lang={lang}>
       {navigation.nextUrl && <PrefetchPageLinks page={navigation.nextUrl} />}
       {navigation.prevUrl && <PrefetchPageLinks page={navigation.prevUrl} />}
 

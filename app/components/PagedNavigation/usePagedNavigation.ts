@@ -33,6 +33,7 @@ export const usePagedNavigation = ({
       scrollLeft + increment >= contentWidth
   );
   const isArticleStart = Boolean(scrollLeft === 0);
+  console.log({ contentWidth, scrollLeft, increment });
   const read = Math.ceil(
     contentWidth && exists(scrollLeft)
       ? ((scrollLeft + increment) / contentWidth) * 100
