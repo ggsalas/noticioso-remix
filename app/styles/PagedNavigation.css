@@ -63,6 +63,7 @@ body {
 }
 
 .PagedNavigationContainer__columns img,
+.PagedNavigationContainer__columns iframe,
 .PagedNavigationContainer__columns video {
   width: 100%;
   height: auto;

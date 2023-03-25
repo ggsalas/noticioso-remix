@@ -1,5 +1,4 @@
-import type { LoaderArgs, LoaderFunction } from "@remix-run/node";
-import { PrefetchPageLinks, useParams } from "@remix-run/react";
+import type { LoaderFunction } from "@remix-run/node";
 import type { ChangeEvent } from "react";
 import {
   json,
@@ -8,18 +7,13 @@ import {
   useLocation,
   useNavigate,
 } from "react-router";
-import PagedNavigation from "~/components/PagedNavigation";
 import PagedNavigationStyles from "~/styles/PagedNavigation.css";
 import { getFeeds } from "~/server/getFeeds.server";
 import { useGlobalFont } from "~/shared/useGlobalFont";
 import FeedsCSS from "~/styles/Feeds.css";
-import { getFeedNavigation } from "~/shared/getFeedNavigation";
 import type { Feed } from "~/types";
 
-type LoaderData = Awaited<{
-  feeds: Feed[];
-  navigation?: any;
-}>;
+type LoaderData = Awaited<{ feeds: Feed[] }>;
 
 export function links() {
   return [
@@ -34,35 +28,24 @@ export function headers({ loaderHeaders }: { loaderHeaders: Headers }) {
   };
 }
 
-export const loader: LoaderFunction = async ({ params }: LoaderArgs) => {
+export const loader: LoaderFunction = async () => {
   const feeds = await getFeeds();
-  const navigation = getFeedNavigation({
-    feedUrl: params.feedUrl,
-    feeds,
-  });
-
   let headers = {
     "Cache-Control": "max-age=3600", // 1 hour
   };
 
-  return json<LoaderData>({ feeds, navigation }, { headers });
+  return json<LoaderData>({ feeds }, { headers });
 };
 
 export default function Feeds() {
   useGlobalFont();
-  const { feeds, navigation } = useLoaderData() as LoaderData;
+  const { feeds } = useLoaderData() as LoaderData;
   const location = useLocation();
   const navigate = useNavigate();
 
   const handleFeedSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     navigate(e.target?.value);
   };
-
-  const onGoNextHandler = () => {
-    navigate(navigation.nextUrl);
-  };
-
-  const onGoPrevHandler = () => navigate(navigation.prevUrl);
 
   const getTo = (url: string) => `/feeds/${encodeURIComponent(url)}`;
 
@@ -79,9 +62,6 @@ export default function Feeds() {
 
   return (
     <div className="Feeds">
-      {navigation.nextUrl && <PrefetchPageLinks page={navigation.nextUrl} />}
-      {navigation.prevUrl && <PrefetchPageLinks page={navigation.prevUrl} />}
-
       <div className="Feeds__navigation">
         <select
           name="feeds"
@@ -101,11 +81,7 @@ export default function Feeds() {
         </select>
       </div>
 
-      <PagedNavigation onGoNext={onGoNextHandler} onGoPrev={onGoPrevHandler}>
-        <div>
-          <Outlet />
-        </div>
-      </PagedNavigation>
+      <Outlet />
     </div>
   );
 }

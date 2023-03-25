@@ -159,7 +159,7 @@ const HARDCODED_FEEDS: Feed[] = [
   },
   {
     name: "El Pais ES - Opinión",
-    url: "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/internacional/portada",
+    url: "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/opinion/portada",
     oldestArticle: 1,
     lang: "es",
   },

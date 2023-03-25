@@ -1,13 +1,31 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Link, PrefetchPageLinks, useParams } from "@remix-run/react";
+import {
+  Link,
+  PrefetchPageLinks,
+  useNavigate,
+  useParams,
+} from "@remix-run/react";
 import { useEffect } from "react";
 import { useLoaderData } from "react-router";
+import PagedNavigation from "~/components/PagedNavigation";
 import { getFeedContent } from "~/server/getFeedContent.server";
+import { getFeeds } from "~/server/getFeeds.server";
 import { getNextFeedWithContentUrl } from "~/server/getNextFeedWithContent";
+import { getFeedNavigation } from "~/shared/getFeedNavigation";
 
-type LoaderData = Awaited<ReturnType<typeof getFeedContent>> & {
+type FeedContent = Awaited<ReturnType<typeof getFeedContent>>;
+
+type Navigation = {
+  nextUrl: string;
+  prevUrl: string;
+  currentFeed?: string;
+};
+
+type LoaderData = {
+  feedContent: FeedContent;
   nextFeedWithContentUrl?: string;
+  navigation: Navigation;
 };
 
 export function headers({ loaderHeaders }: { loaderHeaders: Headers }) {
@@ -19,26 +37,37 @@ export function headers({ loaderHeaders }: { loaderHeaders: Headers }) {
 export const loader = async ({ params }: LoaderArgs) => {
   if (!params.feedUrl) return;
 
-  const feedContent: LoaderData = await getFeedContent(params.feedUrl);
-  const content = feedContent.rss.channel.item;
+  // Get navigation urls
+  const feeds = await getFeeds();
+  const navigation = getFeedNavigation({
+    feedUrl: params.feedUrl,
+    feeds,
+  });
 
-  // Add nextFeedWithContentUrl to allow avoid useless navigation on many empty feeds
+  const feedContent: FeedContent = await getFeedContent(params.feedUrl);
+  const content = feedContent.rss.channel.item;
+  let nextFeedWithContentUrl = undefined;
+
+  // Add nextFeedWithContentUrl to allow avoid useless navigation on multiple empty feeds
   if (!content.length || content.length === 0) {
-    feedContent.nextFeedWithContentUrl = await getNextFeedWithContentUrl(
-      params.feedUrl
-    );
+    nextFeedWithContentUrl = await getNextFeedWithContentUrl(params.feedUrl);
   }
 
-  return json<LoaderData>(feedContent ?? null, {
-    headers: {
-      "Cache-Control": "max-age=3600", // 1 hour
-    },
-  });
+  return json<LoaderData>(
+    { navigation, nextFeedWithContentUrl, feedContent },
+    {
+      headers: {
+        "Cache-Control": "max-age=3600", // 1 hour
+      },
+    }
+  );
 };
 
 export default function FeedUrl() {
-  const feedContent = useLoaderData() as LoaderData;
-  let { feedUrl } = useParams();
+  const { feedUrl } = useParams();
+  const { feedContent, nextFeedWithContentUrl, navigation } =
+    useLoaderData() as LoaderData;
+  const navigate = useNavigate();
 
   const { item: content } = feedContent.rss.channel;
 
@@ -49,58 +78,64 @@ export default function FeedUrl() {
     }
   }, [content, feedUrl]);
 
-  // Offers a link to the next feed with content to avoid multiple useless navigation
-  if (feedContent.nextFeedWithContentUrl) {
-    return (
-      <div className="Feeds__item">
-        <PrefetchPageLinks page={feedContent.nextFeedWithContentUrl} />
+  const onGoNextHandler = () => navigate(navigation.nextUrl);
+  const onGoPrevHandler = () => navigate(navigation.prevUrl);
 
-        <div className="Feeds__itemNoContent">
-          <p>No content for today</p>
+  const noContent = nextFeedWithContentUrl ? (
+    // Offers a link to the next feed with content to avoid multiple useless navigation
+    <div className="Feeds__item">
+      <PrefetchPageLinks page={nextFeedWithContentUrl} />
 
-          <Link to={feedContent.nextFeedWithContentUrl}>
-            <button>Ir a la siguiente sección con contenido</button>
-          </Link>
-        </div>
+      <div className="Feeds__itemNoContent">
+        <p>No content for today</p>
+
+        <Link to={nextFeedWithContentUrl}>
+          <button>Ir a la siguiente sección con contenido</button>
+        </Link>
       </div>
-    );
-  }
-
-  // If nextFeedWithContentUrl fails, show only the alert
-  if (!content.length || content.length === 0) {
-    return (
-      <div className="Feeds__item">
-        <p className="Feeds__itemNoContent">No content for today</p>
-      </div>
-    );
-  }
+    </div>
+  ) : (
+    // Only display empty view
+    <div className="Feeds__item">
+      <p className="Feeds__itemNoContent">No content for today</p>
+    </div>
+  );
 
   return (
     <>
-      {content.map((item: any) => {
-        const { title, guid, link, description, author } = item;
+      {navigation.nextUrl && <PrefetchPageLinks page={navigation.nextUrl} />}
+      {navigation.prevUrl && <PrefetchPageLinks page={navigation.prevUrl} />}
 
-        return (
-          <Link
-            to={`/feeds/${encodeURIComponent(
-              feedUrl as string
-            )}/${encodeURIComponent(link)}`}
-            key={guid}
-            className="Feeds__item"
-          >
-            <h3>{title}</h3>
+      <PagedNavigation onGoNext={onGoNextHandler} onGoPrev={onGoPrevHandler}>
+        <div>
+          {!content.length || content.length === 0
+            ? noContent
+            : content.map((item: any) => {
+                const { title, guid, link, description, author } = item;
 
-            {author && <p className="Feeds__itemAuthor">{author}</p>}
+                return (
+                  <Link
+                    to={`/feeds/${encodeURIComponent(
+                      feedUrl as string
+                    )}/${encodeURIComponent(link)}`}
+                    key={guid}
+                    className="Feeds__item"
+                  >
+                    <h3>{title}</h3>
 
-            {description && (
-              <p
-                className="Feeds__itemDescription"
-                dangerouslySetInnerHTML={{ __html: description }}
-              />
-            )}
-          </Link>
-        );
-      })}
+                    {author && <p className="Feeds__itemAuthor">{author}</p>}
+
+                    {description && (
+                      <p
+                        className="Feeds__itemDescription"
+                        dangerouslySetInnerHTML={{ __html: description }}
+                      />
+                    )}
+                  </Link>
+                );
+              })}
+        </div>
+      </PagedNavigation>
     </>
   );
 }
