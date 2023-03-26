@@ -90,9 +90,8 @@ body {
 
 .Feeds__itemDescription {
   margin: calc(var(--articlePadding) / 2) 0 0 0;
-  font-size: 0.8rem;
-  font-weight: bold;
-  line-height: 1.2rem;
+  font-size: 0.7rem;
+  line-height: 1rem;
   font-family: var(--fontFamilySerif);
   text-align: justify;
   hyphens: auto;
