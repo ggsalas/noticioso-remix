@@ -31,7 +31,7 @@ export function headers({ loaderHeaders }: { loaderHeaders: Headers }) {
 export const loader: LoaderFunction = async () => {
   const feeds = await getFeeds();
   let headers = {
-    "Cache-Control": "max-age=3600", // 1 hour
+    "Cache-Control": "private, max-age=3600", // 1 hour
   };
 
   return json<LoaderData>({ feeds }, { headers });

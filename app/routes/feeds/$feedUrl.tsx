@@ -13,6 +13,7 @@ import { getFeedContent } from "~/server/getFeedContent.server";
 import { getFeeds } from "~/server/getFeeds.server";
 import { getNextFeedWithContentUrl } from "~/server/getNextFeedWithContent";
 import { getFeedNavigation } from "~/shared/getFeedNavigation";
+import type { Feed, OldestArticle } from "~/types";
 
 type FeedContent = Awaited<ReturnType<typeof getFeedContent>>;
 
@@ -23,6 +24,8 @@ type Navigation = {
 };
 
 type LoaderData = {
+  updated: number;
+  feedOldestArticle?: OldestArticle;
   feedContent: FeedContent;
   nextFeedWithContentUrl?: string;
   navigation: Navigation;
@@ -53,11 +56,27 @@ export const loader = async ({ params }: LoaderArgs) => {
     nextFeedWithContentUrl = await getNextFeedWithContentUrl(params.feedUrl);
   }
 
+  const updated = Date.now();
+
+  function getOldestArticle(feeds: Feed[], feedUrl: string) {
+    const feed: Feed | undefined = feeds.find(
+      (feed: Feed) => feed.url === feedUrl
+    );
+
+    return feed?.oldestArticle ?? undefined;
+  }
+
   return json<LoaderData>(
-    { navigation, nextFeedWithContentUrl, feedContent },
+    {
+      navigation,
+      nextFeedWithContentUrl,
+      feedContent,
+      updated,
+      feedOldestArticle: getOldestArticle(feeds, params.feedUrl),
+    },
     {
       headers: {
-        "Cache-Control": "max-age=3600", // 1 hour
+        "Cache-Control": "private, max-age=3600", // 1 hour
       },
     }
   );
@@ -65,8 +84,13 @@ export const loader = async ({ params }: LoaderArgs) => {
 
 export default function FeedUrl() {
   const { feedUrl } = useParams();
-  const { feedContent, nextFeedWithContentUrl, navigation } =
-    useLoaderData() as LoaderData;
+  const {
+    feedContent,
+    nextFeedWithContentUrl,
+    navigation,
+    updated,
+    feedOldestArticle,
+  } = useLoaderData() as LoaderData;
   const navigate = useNavigate();
 
   const { item: content } = feedContent.rss.channel;
@@ -101,11 +125,28 @@ export default function FeedUrl() {
     </div>
   );
 
+  const oldestArticleString =
+    feedOldestArticle === 1 ? "Últimas 24 hs" : "Últimos 7 días";
+
   return (
     <>
       {navigation.nextUrl && <PrefetchPageLinks page={navigation.nextUrl} />}
       {navigation.prevUrl && <PrefetchPageLinks page={navigation.prevUrl} />}
+      <div className="Feeds__lastUpdated">
+        <div className="Feeds__lastUpdatedContent">
+          <span>{oldestArticleString}</span>
 
+          <span>
+            Actualizado al{" "}
+            {new Date(updated).toLocaleString("es-AR", {
+              day: "numeric",
+              month: "short",
+              hour: "numeric",
+              minute: "numeric",
+            })}
+          </span>
+        </div>
+      </div>
       <PagedNavigation onGoNext={onGoNextHandler} onGoPrev={onGoPrevHandler}>
         <div>
           {!content.length || content.length === 0

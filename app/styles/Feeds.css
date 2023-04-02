@@ -100,3 +100,25 @@ body {
 .Feeds__itemNoContent {
   text-align: center;
 }
+
+.Feeds__lastUpdated {
+  display: flex;
+  padding: 0 var(--articlePadding);
+  display: flex;
+  justify-content: center;
+  width: calc(var(--articleColumnWidth) + var(--articlePadding) * 2);
+  max-width: 100%;
+  box-sizing: border-box;
+  background: var(--colorBackground);
+}
+
+.Feeds__lastUpdatedContent {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--colorFront);
+  font-family: var(--fontFamilySans);
+  font-size: var(--fontSizeSmall);
+  line-height: var(--fontSizeSmall);
+  padding: 0.5em 0;
+}

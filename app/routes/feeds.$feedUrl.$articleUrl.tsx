@@ -44,7 +44,7 @@ export const loader = async ({ params }: LoaderArgs) => {
   const feed = feeds.find((f) => f.url === params.feedUrl);
 
   let headers = {
-    "Cache-Control": "max-age=86400", // 1 day
+    "Cache-Control": "private, max-age=86400", // 1 day
   };
 
   return json<LoaderData>(
