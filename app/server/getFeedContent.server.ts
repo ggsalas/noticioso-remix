@@ -62,7 +62,7 @@ export async function getFeedContent(url: string): Promise<Feed> {
       });
 
     feed.rss.channel.item = items;
-    feed.date = res.headers.date;
+    feed.date = currentTime;
     return feed;
   } catch (error) {
     throw new Error(`Error on get feeds: ${error}`);

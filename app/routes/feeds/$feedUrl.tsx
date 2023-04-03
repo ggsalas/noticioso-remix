@@ -77,7 +77,7 @@ export const loader = async ({ params }: LoaderArgs) => {
     },
     {
       headers: {
-        "Cache-Control": "private, max-age=3600", // 1 hour
+        "Cache-Control": "private, max-age=60", // 1 min
       },
     }
   );
@@ -96,6 +96,7 @@ export default function FeedUrl() {
 
   const { item: content } = feedContent.rss.channel;
 
+  console.log("updated: ", updated, new Date(updated), content.length);
   // to use in the navigation of the feed and article pages
   useEffect(() => {
     if (content) {
