@@ -28,6 +28,7 @@ type Channel = {
 };
 
 type Feed = {
+  date: Date;
   rss: {
     channel: Channel;
   };
@@ -61,6 +62,7 @@ export async function getFeedContent(url: string): Promise<Feed> {
       });
 
     feed.rss.channel.item = items;
+    feed.date = res.headers.date;
     return feed;
   } catch (error) {
     throw new Error(`Error on get feeds: ${error}`);

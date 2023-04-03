@@ -24,7 +24,7 @@ type Navigation = {
 };
 
 type LoaderData = {
-  updated: number;
+  updated: Date;
   feedOldestArticle?: OldestArticle;
   feedContent: FeedContent;
   nextFeedWithContentUrl?: string;
@@ -49,6 +49,7 @@ export const loader = async ({ params }: LoaderArgs) => {
 
   const feedContent: FeedContent = await getFeedContent(params.feedUrl);
   const content = feedContent.rss.channel.item;
+  console.log(feedContent);
   let nextFeedWithContentUrl = undefined;
 
   // Add nextFeedWithContentUrl to allow avoid useless navigation on multiple empty feeds
@@ -56,7 +57,7 @@ export const loader = async ({ params }: LoaderArgs) => {
     nextFeedWithContentUrl = await getNextFeedWithContentUrl(params.feedUrl);
   }
 
-  const updated = Date.now();
+  const updated = feedContent.date;
 
   function getOldestArticle(feeds: Feed[], feedUrl: string) {
     const feed: Feed | undefined = feeds.find(
