@@ -148,7 +148,11 @@ export default function FeedUrl() {
           </span>
         </div>
       </div>
-      <PagedNavigation onGoNext={onGoNextHandler} onGoPrev={onGoPrevHandler}>
+      <PagedNavigation
+        onGoNext={onGoNextHandler}
+        onGoPrev={onGoPrevHandler}
+        mode="pages"
+      >
         <div>
           {!content.length || content.length === 0
             ? noContent

@@ -11,6 +11,7 @@ interface PagedNavigationProps {
   onGoNext?: () => void;
   onGoPrev?: () => void;
   onGoToParent?: () => void;
+  mode?: "percentage" | "pages";
 }
 
 export default function PagedNavigation({
@@ -18,19 +19,26 @@ export default function PagedNavigation({
   onGoNext,
   onGoPrev,
   onGoToParent,
+  mode = "percentage",
 }: PagedNavigationProps) {
   const [showActions, setShowActions] = useState(false);
 
   const { containerRef, containerElement, containerValues } =
     useContainerValues();
 
-  const { handleScroll, readPercentage, contentRef, handlePageNavigation } =
-    usePagedNavigation({
-      onGoNext,
-      onGoPrev,
-      containerElement,
-      containerValues,
-    });
+  const {
+    handleScroll,
+    readPercentage,
+    contentRef,
+    handlePageNavigation,
+    page,
+    totalPages,
+  } = usePagedNavigation({
+    onGoNext,
+    onGoPrev,
+    containerElement,
+    containerValues,
+  });
 
   const toggleActions = () => {
     setShowActions((actions) => !actions);
@@ -85,15 +93,39 @@ export default function PagedNavigation({
       </div>
 
       <div className="PagedNavigationContainer__footer">
-        <div className="PagedNavigationContainer__footerInfo">
-          {readPercentage}%
-        </div>
-        <div className="PagedNavigationContainer__readPercentage">
-          <div
-            className="PagedNavigationContainer__readPercentageBar"
-            style={{ width: `${readPercentage}%` }}
-          />
-        </div>
+        {mode === "pages" ? (
+          <>
+            <div className="PagedNavigationContainer__footerInfo">
+              {`página ${page}`}
+            </div>
+            <div className="PagedNavigationContainer__readPages">
+              {Array(totalPages)
+                .fill("")
+                .map((_, i) => (
+                  <div
+                    key={i}
+                    className={
+                      i + 1 === page
+                        ? "PagedNavigationContainer__page-current"
+                        : "PagedNavigationContainer__page"
+                    }
+                  />
+                ))}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="PagedNavigationContainer__footerInfo">
+              {readPercentage}%
+            </div>
+            <div className="PagedNavigationContainer__readPercentage">
+              <div
+                className="PagedNavigationContainer__readPercentageBar"
+                style={{ width: `${readPercentage}%` }}
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

@@ -90,6 +90,27 @@ body {
   border: 1px solid var(--colorFront);
 }
 
+.PagedNavigationContainer__readPages {
+  height: 0.2rem;
+  margin-bottom: var(--articlePadding);
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.4rem;
+}
+
+.PagedNavigationContainer__page {
+  height: 0.2rem;
+  border: 1px solid var(--colorFront);
+  flex-grow: 1;
+}
+
+.PagedNavigationContainer__page-current {
+  height: 0.2rem;
+  border: 1px solid var(--colorFront);
+  flex-grow: 1;
+  background: var(--colorFront);
+}
+
 .PagedNavigationContainer__readPercentageBar {
   background: var(--colorFront);
   height: 100%;

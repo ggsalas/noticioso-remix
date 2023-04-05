@@ -40,6 +40,9 @@ export const usePagedNavigation = ({
   );
   const readPercentage = read > 100 ? 100 : read;
 
+  const totalPages = contentWidth ? Math.ceil(contentWidth / increment) : 1;
+  const page = Math.floor((totalPages * readPercentage) / 100);
+
   const handlePageNavigation = (direction: "next" | "back") => () => {
     if (!exists(containerElement) || !exists(scrollLeft)) return;
 
@@ -61,6 +64,8 @@ export const usePagedNavigation = ({
     handleScroll,
     handlePageNavigation,
     readPercentage,
+    totalPages,
+    page,
     contentRef,
   };
 };
