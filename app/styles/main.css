@@ -8,7 +8,7 @@
 
   --fontFamilySerif: "Alegreya", "Georgia", "Times", "Times New Roman", serif;
   --fontFamilySans: sans-serif;
-  --fontFamilyMono: "JetBrains", monospace;
+  --fontFamilyMono: "JetBrains Mono", monospace;
   --fontSizeSmall: max(0.6rem, 10px);
 
   --articlePadding: 24px;
@@ -24,7 +24,7 @@
 
   --colorBackground: #fff;
   --colorFront: #000;
-  --colorBgGrey: #ccc;
+  --colorBgGrey: #eee;
   --colorBackgroundTransparent: #ffffffb3;
 
   font-synthesis: none;

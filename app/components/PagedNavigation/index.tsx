@@ -61,6 +61,8 @@ export default function PagedNavigation({
     toggleActions,
   });
 
+  const totalPagesArray = totalPages > 0 ? Array(totalPages).fill("") : [];
+
   return (
     <div className="PagedNavigation" id="PagedNavigation">
       <div
@@ -99,18 +101,16 @@ export default function PagedNavigation({
               {`página ${page}`}
             </div>
             <div className="PagedNavigationContainer__readPages">
-              {Array(totalPages)
-                .fill("")
-                .map((_, i) => (
-                  <div
-                    key={i}
-                    className={
-                      i + 1 === page
-                        ? "PagedNavigationContainer__page-current"
-                        : "PagedNavigationContainer__page"
-                    }
-                  />
-                ))}
+              {totalPagesArray.map((_, i) => (
+                <div
+                  key={i}
+                  className={
+                    i + 1 === page
+                      ? "PagedNavigationContainer__page-current"
+                      : "PagedNavigationContainer__page"
+                  }
+                />
+              ))}
             </div>
           </>
         ) : (

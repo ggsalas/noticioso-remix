@@ -127,24 +127,24 @@ const HARDCODED_FEEDS: Feed[] = [
     oldestArticle: 1,
     lang: "en",
   },
-  {
+  /* {
     name: "NYT - Politics",
     url: "https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/politics/rss.xml",
     oldestArticle: 1,
     lang: "en",
-  },
+  }, */
   {
     name: "NYT - Opinion",
     url: "https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/opinion/rss.xml",
     oldestArticle: 1,
     lang: "en",
   },
-  {
+  /* {
     name: "El Pais ES - España",
     url: "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/espana/portada",
     oldestArticle: 1,
     lang: "es",
-  },
+  }, */
   {
     name: "El Pais ES - Portada America",
     url: "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/america/portada",
@@ -169,12 +169,12 @@ const HARDCODED_FEEDS: Feed[] = [
     oldestArticle: 1,
     lang: "es",
   },
-  {
+  /* {
     name: "ElObs UY - Economia",
     url: "https://www.elobservador.com.uy/rss/elobservador/economia-y-empresas.xml",
     oldestArticle: 1,
     lang: "es",
-  },
+  }, */
   {
     name: "ElObs UY - Mundo",
     url: "https://www.elobservador.com.uy/rss/elobservador/mundo.xml",
@@ -193,8 +193,50 @@ const HARDCODED_FEEDS: Feed[] = [
     oldestArticle: 1,
     lang: "es",
   },
+  {
+    name: "Pocket Articles",
+    url: "https://getpocket.com/users/*sso1398958058269bd3/feed/all",
+    oldestArticle: 7,
+    lang: "es", // should be multiple languages
+  },
+  {
+    name: "CSS-tricks",
+    url: "https://css-tricks.com/feed/",
+    oldestArticle: 7,
+    lang: "en",
+  },
+  {
+    name: "Javascript Scene",
+    url: "https://medium.com/feed/javascript-scene",
+    oldestArticle: 7,
+    lang: "en",
+  },
+  {
+    name: "Smashing Magazine",
+    url: "https://www.smashingmagazine.com/feed/",
+    oldestArticle: 7,
+    lang: "en",
+  },
+  {
+    name: "Asis",
+    url: "https://jorgeasisdigital.com/feed",
+    oldestArticle: 7,
+    lang: "es",
+  },
+  {
+    name: "Cavallo",
+    url: "http://www.cavallo.com.ar/feed",
+    oldestArticle: 7,
+    lang: "es",
+  },
 ];
 
 export async function getFeeds(): Promise<Array<Feed>> {
   return HARDCODED_FEEDS;
+}
+
+export async function getFeedByUrl(url: string): Promise<Feed | undefined> {
+  const feeds = await getFeeds();
+
+  return feeds.find((f) => f.url.includes(url));
 }

@@ -95,13 +95,18 @@ body {
   margin-bottom: var(--articlePadding);
   display: flex;
   flex-wrap: nowrap;
-  gap: 0.4rem;
 }
 
 .PagedNavigationContainer__page {
   height: 0.2rem;
-  border: 1px solid var(--colorFront);
+  border-top: 1px solid var(--colorFront);
+  border-bottom: 1px solid var(--colorFront);
+  border-right: 1px solid var(--colorFront);
   flex-grow: 1;
+}
+
+.PagedNavigationContainer__page:first-child {
+  border-left: 1px solid var(--colorFront);
 }
 
 .PagedNavigationContainer__page-current {

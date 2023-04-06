@@ -2,6 +2,7 @@ import axios from "axios";
 import { XMLParser } from "fast-xml-parser";
 import createDOMPurify from "dompurify";
 import { JSDOM } from "jsdom";
+import { getFeedByUrl, getFeeds } from "./getFeeds.server";
 
 type Item = {
   title: string;
@@ -27,22 +28,24 @@ type Channel = {
   item: Item[];
 };
 
-type Feed = {
+type FeedData = {
   date: Date;
   rss: {
     channel: Channel;
   };
 };
 
-export async function getFeedContent(url: string): Promise<Feed> {
+export async function getFeedContent(url: string): Promise<FeedData> {
   try {
+    const feed = await getFeedByUrl(url);
     const res = await axios.get(url, { responseType: "text" });
     const parser = new XMLParser();
-    let feed = parser.parse(res.data);
+    let feedContent: FeedData = parser.parse(res.data);
     const currentTime = new Date().getTime();
     const date24HoursAgo = new Date(currentTime - 24 * 60 * 60 * 1000);
+    const date7daysAgo = new Date(currentTime - 24 * 60 * 60 * 1000 * 7);
 
-    const items = feed.rss.channel.item
+    const items = feedContent.rss.channel.item
       // Get description as plain text
       ?.map((item: Item) => {
         const window = new JSDOM("").window;
@@ -57,13 +60,14 @@ export async function getFeedContent(url: string): Promise<Feed> {
       .filter((item: Item) => {
         const itemDate = new Date(Date.parse(item.pubDate));
         const isFromLast24Hs = itemDate.getTime() > date24HoursAgo.getTime();
+        const isFromLast7days = itemDate.getTime() > date7daysAgo.getTime();
 
-        return isFromLast24Hs;
+        return feed?.oldestArticle === 7 ? isFromLast7days : isFromLast24Hs;
       });
 
-    feed.rss.channel.item = items;
-    feed.date = res.headers.date;
-    return feed;
+    feedContent.rss.channel.item = items;
+    feedContent.date = res.headers.date;
+    return feedContent;
   } catch (error) {
     throw new Error(`Error on get feeds: ${error}`);
   }

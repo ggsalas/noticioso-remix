@@ -54,7 +54,7 @@ body {
 }
 
 .Feeds__item {
-  padding: var(--articlePadding) 0;
+  padding: calc(var(--articlePadding) / 2) 0;
   margin: 0;
   display: block;
   page-break-inside: avoid;
@@ -73,9 +73,9 @@ body {
 .Feeds__item h2,
 .Feeds__item h3,
 .Feeds__item h4 {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: bold;
-  line-height: 1.1;
+  line-height: 1;
   margin: 0;
   font-family: var(--fontFamilySerif);
 }
@@ -90,11 +90,19 @@ body {
 
 .Feeds__itemDescription {
   margin: calc(var(--articlePadding) / 2) 0 0 0;
-  font-size: 0.7rem;
+  font-size: 0.9rem;
   line-height: 1rem;
   font-family: var(--fontFamilySerif);
   text-align: justify;
   hyphens: auto;
+  padding: 0;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  white-space: normal;
 }
 
 .Feeds__itemNoContent {

@@ -112,10 +112,16 @@ export default function FeedUrl() {
       <PrefetchPageLinks page={nextFeedWithContentUrl} />
 
       <div className="Feeds__itemNoContent">
-        <p>No content for today</p>
+        <p>
+          No hay contenido publicado en
+          {feedOldestArticle === 1
+            ? " las últimas 24 horas"
+            : " la ultima semena"}
+          .
+        </p>
 
         <Link to={nextFeedWithContentUrl}>
-          <button>Ir a la siguiente sección con contenido</button>
+          <button>Ir a la siguiente sección actualizada</button>
         </Link>
       </div>
     </div>
@@ -126,16 +132,15 @@ export default function FeedUrl() {
     </div>
   );
 
-  const oldestArticleString =
-    feedOldestArticle === 1 ? "Últimas 24 hs" : "Últimos 7 días";
-
   return (
     <>
       {navigation.nextUrl && <PrefetchPageLinks page={navigation.nextUrl} />}
       {navigation.prevUrl && <PrefetchPageLinks page={navigation.prevUrl} />}
       <div className="Feeds__lastUpdated">
         <div className="Feeds__lastUpdatedContent">
-          <span>{oldestArticleString}</span>
+          <span>
+            {feedOldestArticle === 1 ? "Últimas 24hs" : "Últimos 7 días"}
+          </span>
 
           <span>
             Actualizado al{" "}
@@ -148,6 +153,7 @@ export default function FeedUrl() {
           </span>
         </div>
       </div>
+
       <PagedNavigation
         onGoNext={onGoNextHandler}
         onGoPrev={onGoPrevHandler}

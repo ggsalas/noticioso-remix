@@ -16,13 +16,10 @@
   font-size: 1.5rem;
 }
 
-.Article h2 {
-  font-size: 1.2rem;
-}
-
+.Article h2,
 .Article h3 {
-  font-size: 1.2rem;
-  font-weight: normal;
+  font-size: 1rem;
+  font-weight: bold;
 }
 
 .Article h4 {
@@ -63,10 +60,20 @@
 }
 
 .Article code,
+.Article code p,
+.Article pre p,
 .Article pre {
-  font-size: 0.85rem;
+  font-size: 0.7rem;
   font-family: var(--fontFamilyMono), SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
+  background: var(--colorBgGrey);
+  white-space: pre-wrap;
+  padding: 0.5rem;
+}
+
+.Article p code,
+.Article li code {
+  padding: 0;
 }
 
 .Article__siteName {
