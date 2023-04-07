@@ -93,6 +93,7 @@ body {
 .PagedNavigationContainer__readPages {
   height: 0.2rem;
   margin-bottom: var(--articlePadding);
+  border-left: 1px solid var(--colorFront);
   display: flex;
   flex-wrap: nowrap;
 }

@@ -1,46 +1,36 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { exists } from "~/shared/common";
-
-type ContainerValues = {
-  articleColumnWidth: string;
-  articlePadding: string;
-  viewportWidth?: number;
-  viewportHeight?: number;
-  increment: number;
-};
-
-function getValue(name: string, elementStyles: CSSStyleDeclaration | null) {
-  return elementStyles?.getPropertyValue(name)?.trim() ?? "";
-}
+import { useCssValues } from "~/shared/useCssValues";
 
 export function useContainerValues() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const containerElement = containerRef.current;
-  const [containerValues, setContainerValues] = useState<ContainerValues>({
-    articleColumnWidth: "0px",
-    articlePadding: "0px",
+  const {
+    ref: containerRef,
+    element: containerElement,
+    styles,
+    getCSS,
+  } = useCssValues();
+
+  const [viewportValues, setViewportValues] = useState({
     viewportWidth: 0,
     viewportHeight: 0,
-    increment: 0,
   });
 
-  // get css values from the DOM
-  useEffect(() => {
-    if (containerElement) {
-      const elementStyles = window.getComputedStyle(
-        containerElement as Element
-      );
+  const articleValues = useMemo(() => {
+    if (styles) {
+      const articleColumnWidth = getCSS("width");
+      console.log({
+        articleColumnWidth,
+        parsed: parseFloat(articleColumnWidth),
+      });
+      const articlePadding = getCSS("--articlePadding");
 
-      const articleColumnWidth = getValue("width", elementStyles);
-      const articlePadding = getValue("--articlePadding", elementStyles);
-
-      setContainerValues({
+      return {
         articleColumnWidth,
         articlePadding,
-        increment: parseInt(articleColumnWidth) + parseInt(articlePadding),
-      });
+        increment: parseFloat(articleColumnWidth) + parseFloat(articlePadding),
+      };
     }
-  }, [containerElement]);
+  }, [getCSS, styles]);
 
   // get viewport size
   useEffect(() => {
@@ -54,9 +44,9 @@ export function useContainerValues() {
         const viewportHeight = entry.target.getBoundingClientRect().height;
 
         exists(viewportWidth) &&
-          setContainerValues((st) => ({ ...st, viewportWidth }));
+          setViewportValues((st) => ({ ...st, viewportWidth }));
         exists(viewportHeight) &&
-          setContainerValues((st) => ({ ...st, viewportHeight }));
+          setViewportValues((st) => ({ ...st, viewportHeight }));
       });
 
       resizeObserver.observe(node);
@@ -70,6 +60,10 @@ export function useContainerValues() {
   return {
     containerRef,
     containerElement,
-    containerValues,
+    containerValues: {
+      ...viewportValues,
+      ...articleValues,
+    },
+    styles,
   };
 }

@@ -50,11 +50,11 @@ export const usePagedNavigation = ({
       case "next":
         return isArticleEnd
           ? onGoNext()
-          : containerElement.scrollTo(scrollLeft + increment, 0);
+          : containerElement.scrollTo(page * increment, 0);
       case "back":
         return isArticleStart
           ? onGoPrev()
-          : containerElement.scrollTo(scrollLeft - increment, 0);
+          : containerElement.scrollTo((page - 2) * increment, 0);
       default:
         throw new Error("Scroll direction not supported");
     }

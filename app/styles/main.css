@@ -38,7 +38,7 @@
   :root {
     --colorBackground: #000;
     --colorFront: #e3e3e3;
-    --colorBgGrey: #333;
+    --colorBgGrey: #0c0c0c;
     --colorBackgroundTransparent: #000000b3;
   }
 }

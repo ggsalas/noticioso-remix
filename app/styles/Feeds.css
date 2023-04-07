@@ -54,7 +54,7 @@ body {
 }
 
 .Feeds__item {
-  padding: calc(var(--articlePadding) / 2) 0;
+  padding: 1rem 0;
   margin: 0;
   display: block;
   page-break-inside: avoid;

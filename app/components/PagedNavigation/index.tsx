@@ -23,7 +23,7 @@ export default function PagedNavigation({
 }: PagedNavigationProps) {
   const [showActions, setShowActions] = useState(false);
 
-  const { containerRef, containerElement, containerValues } =
+  const { containerRef, containerElement, containerValues, styles } =
     useContainerValues();
 
   const {
@@ -65,68 +65,74 @@ export default function PagedNavigation({
 
   return (
     <div className="PagedNavigation" id="PagedNavigation">
-      <div
-        className="PagedNavigationContainer"
-        ref={containerRef}
-        onScroll={handleScroll}
-      >
-        {showActions ? (
-          <div className="PagedNavigationContainer__actions">
-            <div className="PagedNavigationContainer__actions-menu">
-              <div className="PagedNavigationContainer__actions-menuBar">
-                {onGoToParent ? (
-                  <button onClick={onGoToParent}>{`< Back`}</button>
-                ) : (
-                  <div />
-                )}
-                <FontSet />
+      <>
+        <div
+          className="PagedNavigationContainer"
+          ref={containerRef}
+          onScroll={handleScroll}
+        >
+          {styles && (
+            <>
+              {showActions ? (
+                <div className="PagedNavigationContainer__actions">
+                  <div className="PagedNavigationContainer__actions-menu">
+                    <div className="PagedNavigationContainer__actions-menuBar">
+                      {onGoToParent ? (
+                        <button onClick={onGoToParent}>{`< Back`}</button>
+                      ) : (
+                        <div />
+                      )}
+                      <FontSet />
+                    </div>
+                  </div>
+                  <div
+                    className="PagedNavigationContainer__actions-home"
+                    onClick={toggleActions}
+                  />
+                </div>
+              ) : null}
+
+              <div className="PagedNavigationContainer__columns">
+                {cloneElement(children, { ref: contentRef })}
               </div>
-            </div>
-            <div
-              className="PagedNavigationContainer__actions-home"
-              onClick={toggleActions}
-            />
-          </div>
-        ) : null}
-
-        <div className="PagedNavigationContainer__columns">
-          {cloneElement(children, { ref: contentRef })}
+            </>
+          )}
         </div>
-      </div>
 
-      <div className="PagedNavigationContainer__footer">
-        {mode === "pages" ? (
-          <>
-            <div className="PagedNavigationContainer__footerInfo">
-              {`página ${page}`}
-            </div>
-            <div className="PagedNavigationContainer__readPages">
-              {totalPagesArray.map((_, i) => (
+        <div className="PagedNavigationContainer__footer">
+          {mode === "pages" ? (
+            <>
+              <div className="PagedNavigationContainer__footerInfo">
+                {`página ${page}`}
+              </div>
+              <div className="PagedNavigationContainer__readPages">
+                {totalPagesArray.map((_, i) => (
+                  <div
+                    key={i}
+                    className={
+                      i + 1 === page
+                        ? "PagedNavigationContainer__page-current"
+                        : "PagedNavigationContainer__page"
+                    }
+                  />
+                ))}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="PagedNavigationContainer__footerInfo">
+                {readPercentage}%
+              </div>
+              <div className="PagedNavigationContainer__readPercentage">
                 <div
-                  key={i}
-                  className={
-                    i + 1 === page
-                      ? "PagedNavigationContainer__page-current"
-                      : "PagedNavigationContainer__page"
-                  }
+                  className="PagedNavigationContainer__readPercentageBar"
+                  style={{ width: `${readPercentage}%` }}
                 />
-              ))}
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="PagedNavigationContainer__footerInfo">
-              {readPercentage}%
-            </div>
-            <div className="PagedNavigationContainer__readPercentage">
-              <div
-                className="PagedNavigationContainer__readPercentageBar"
-                style={{ width: `${readPercentage}%` }}
-              />
-            </div>
-          </>
-        )}
-      </div>
+              </div>
+            </>
+          )}
+        </div>
+      </>
     </div>
   );
 }
