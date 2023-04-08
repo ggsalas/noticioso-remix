@@ -18,10 +18,6 @@ export function useContainerValues() {
   const articleValues = useMemo(() => {
     if (styles) {
       const articleColumnWidth = getCSS("width");
-      console.log({
-        articleColumnWidth,
-        parsed: parseFloat(articleColumnWidth),
-      });
       const articlePadding = getCSS("--articlePadding");
 
       return {

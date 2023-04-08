@@ -61,10 +61,10 @@ body {
   border-bottom: 1px solid;
   border-image: linear-gradient(
       90deg,
-      var(--colorBackground) 25%,
-      var(--colorFront) 25%,
-      var(--colorFront) 75%,
-      var(--colorBackground) 75%
+      var(--colorBackground) 35%,
+      var(--colorFront) 35%,
+      var(--colorFront) 65%,
+      var(--colorBackground) 65%
     )
     1;
 }

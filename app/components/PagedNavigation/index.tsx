@@ -1,10 +1,10 @@
 import type { ReactElement } from "react";
 import { cloneElement, useState } from "react";
-import { FontSet } from "../FontSet";
 import { usePagedNavigation } from "./usePagedNavigation";
 import { useKeyboardNavigation } from "./useKeyboardNavigation";
 import { useGesturesNavigation } from "./useGesturesNavigation";
 import { useContainerValues } from "./useContainerValues";
+import Actions from "./Actions";
 
 interface PagedNavigationProps {
   children: ReactElement;
@@ -74,24 +74,8 @@ export default function PagedNavigation({
           {styles && (
             <>
               {showActions ? (
-                <div className="PagedNavigationContainer__actions">
-                  <div className="PagedNavigationContainer__actions-menu">
-                    <div className="PagedNavigationContainer__actions-menuBar">
-                      {onGoToParent ? (
-                        <button onClick={onGoToParent}>{`< Back`}</button>
-                      ) : (
-                        <div />
-                      )}
-                      <FontSet />
-                    </div>
-                  </div>
-                  <div
-                    className="PagedNavigationContainer__actions-home"
-                    onClick={toggleActions}
-                  />
-                </div>
+                <Actions {...{ onGoToParent, toggleActions }} />
               ) : null}
-
               <div className="PagedNavigationContainer__columns">
                 {cloneElement(children, { ref: contentRef })}
               </div>

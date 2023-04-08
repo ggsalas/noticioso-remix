@@ -52,6 +52,44 @@ body {
   flex-direction: row;
   justify-content: space-between;
   border-bottom: 1px solid var(--colorFront);
+  font-family: var(--fontFamilySans);
+}
+
+.PagedNavigationContainer__actions-menuBar-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+}
+
+.PagedNavigationContainer__actions-menuBar-right button {
+  height: 1.5rem;
+}
+
+.PagedNavigationContainer__actions-menuBar-right a,
+.PagedNavigationContainer__actions-menuBar-right a:visited {
+  color: var(--colorFront);
+}
+
+.PagedNavigationContainer__actions-menuBar-clipboard-container {
+  position: relative;
+}
+
+.PagedNavigationContainer__actions-menuBar-clipboard {
+  position: absolute;
+  right: 2rem;
+  bottom: 0;
+  z-index: 1;
+  background: var(--colorBackground);
+  color: var(--colorFront);
+  font-size: var(--fontSizeSmall);
+  font-family: var(--fontFamilySans);
+  white-space: nowrap;
+  height: 100%;
+  padding: 0 1rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
 }
 
 .PagedNavigationContainer__columns {
@@ -93,7 +131,6 @@ body {
 .PagedNavigationContainer__readPages {
   height: 0.2rem;
   margin-bottom: var(--articlePadding);
-  border-left: 1px solid var(--colorFront);
   display: flex;
   flex-wrap: nowrap;
 }
