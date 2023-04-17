@@ -13,15 +13,7 @@ import { getFeedContent } from "~/server/getFeedContent.server";
 import { getFeeds } from "~/server/getFeeds.server";
 import { getNextFeedWithContentUrl } from "~/server/getNextFeedWithContent";
 import { getFeedNavigation } from "~/shared/getFeedNavigation";
-import type { Feed, OldestArticle } from "~/types";
-
-type FeedContent = Awaited<ReturnType<typeof getFeedContent>>;
-
-type Navigation = {
-  nextUrl: string;
-  prevUrl: string;
-  currentFeed?: string;
-};
+import type { Feed, FeedContent, Navigation, OldestArticle } from "~/types";
 
 type LoaderData = {
   updated: Date;

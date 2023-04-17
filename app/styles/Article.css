@@ -6,6 +6,18 @@
   box-sizing: border-box;
 }
 
+.Article .Article__title {
+  margin: 0;
+}
+
+.Article .Article__subtitle {
+  font-size: 0.8rem;
+  font-style: italic;
+  margin: 0.4rem 0 1rem 0;
+  display: flex;
+  justify-content: space-between;
+}
+
 .Article a {
   color: var(--colorFront);
   font-weight: normal;

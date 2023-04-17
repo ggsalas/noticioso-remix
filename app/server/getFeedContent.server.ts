@@ -2,38 +2,8 @@ import axios from "axios";
 import { XMLParser } from "fast-xml-parser";
 import createDOMPurify from "dompurify";
 import { JSDOM } from "jsdom";
-import { getFeedByUrl, getFeeds } from "./getFeeds.server";
-
-type Item = {
-  title: string;
-  link: string;
-  pubDate: string;
-  author?: string;
-  description: string; // can have images
-  "content:encoded"?: string; // can have images
-  /* guid
-   *
-   * media:description
-   * media:credit
-   * content:encoded
-   */
-};
-
-type Channel = {
-  title: string;
-  description: string;
-  language: string;
-  link: string;
-  lastBuildDate: string;
-  item: Item[];
-};
-
-type FeedData = {
-  date: Date;
-  rss: {
-    channel: Channel;
-  };
-};
+import { getFeedByUrl } from "./getFeeds.server";
+import type { FeedData, Item } from "~/types";
 
 export async function getFeedContent(url: string): Promise<FeedData> {
   try {
