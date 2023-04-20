@@ -12,9 +12,16 @@ body {
   flex-direction: column;
   overflow: hidden;
   user-select: none;
+  align-items: center;
 }
 
-.PagedNavigationContainer {
+.PagedNavigation__header {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+.PagedNavigation__container {
   display: flex;
   flex-grow: 1;
   justify-content: center;
@@ -24,7 +31,7 @@ body {
   width: var(--articleColumnWidth);
 }
 
-.PagedNavigationContainer__actions {
+.Actions {
   position: fixed;
   top: 0;
   left: 0;
@@ -36,17 +43,17 @@ body {
   flex-direction: column;
 }
 
-.PagedNavigationContainer__actions-menu {
+.Actions__menu {
   background-color: var(--colorBackground);
 }
 
-.PagedNavigationContainer__actions-home {
+.Actions__home {
   display: flex;
   flex-grow: 1;
   background-color: var(--colorBackgroundTransparent);
 }
 
-.PagedNavigationContainer__actions-menuBar {
+.Actions__menuBar {
   padding: var(--articlePadding);
   display: flex;
   flex-direction: row;
@@ -55,27 +62,27 @@ body {
   font-family: var(--fontFamilySans);
 }
 
-.PagedNavigationContainer__actions-menuBar-right {
+.Actions__menuBar-right {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   gap: 1rem;
 }
 
-.PagedNavigationContainer__actions-menuBar-right button {
+.Actions__menuBar-right button {
   height: 1.5rem;
 }
 
-.PagedNavigationContainer__actions-menuBar-right a,
-.PagedNavigationContainer__actions-menuBar-right a:visited {
+.Actions__menuBar-right a,
+.Actions__menuBar-right a:visited {
   color: var(--colorFront);
 }
 
-.PagedNavigationContainer__actions-menuBar-clipboard-container {
+.Actions__menuBar-clipboard-container {
   position: relative;
 }
 
-.PagedNavigationContainer__actions-menuBar-clipboard {
+.Actions__menuBar-clipboard {
   position: absolute;
   right: 2rem;
   bottom: 0;
@@ -92,7 +99,7 @@ body {
   align-items: center;
 }
 
-.PagedNavigationContainer__columns {
+.PagedNavigation__columns {
   column-width: var(--articleColumnWidth);
   -webkit-column-width: var(--articleColumnWidth);
   column-gap: var(--articlePadding);
@@ -100,19 +107,19 @@ body {
   height: 100%;
 }
 
-.PagedNavigationContainer__columns img,
-.PagedNavigationContainer__columns iframe,
-.PagedNavigationContainer__columns video {
+.PagedNavigation__columns img,
+.PagedNavigation__columns iframe,
+.PagedNavigation__columns video {
   width: 100%;
   height: auto;
 }
 
-.PagedNavigationContainer__columns picture {
+.PagedNavigation__columns picture {
   display: flex;
   margin-bottom: 1em;
 }
 
-.PagedNavigationContainer__footer {
+.PagedNavigation__footer {
   box-sizing: border-box;
   padding: 0;
   display: flex;
@@ -120,22 +127,23 @@ body {
   justify-content: flex-end;
   font-family: var(--fontFamilySans);
   flex-shrink: 0;
+  width: var(--articleColumnWidth);
 }
 
-.PagedNavigationContainer__readPercentage {
+.NavigationBar__readPercentage {
   height: 0.2rem;
   margin-bottom: var(--articlePadding);
   border: 1px solid var(--colorFront);
 }
 
-.PagedNavigationContainer__readPages {
+.NavigationBar__readPages {
   height: 0.2rem;
   margin-bottom: var(--articlePadding);
   display: flex;
   flex-wrap: nowrap;
 }
 
-.PagedNavigationContainer__page {
+.NavigationBar__page {
   height: 0.2rem;
   border-top: 1px solid var(--colorFront);
   border-bottom: 1px solid var(--colorFront);
@@ -143,23 +151,23 @@ body {
   flex-grow: 1;
 }
 
-.PagedNavigationContainer__page:first-child {
+.NavigationBar__page:first-child {
   border-left: 1px solid var(--colorFront);
 }
 
-.PagedNavigationContainer__page-current {
+.NavigationBar__page-current {
   height: 0.2rem;
   border: 1px solid var(--colorFront);
   flex-grow: 1;
   background: var(--colorFront);
 }
 
-.PagedNavigationContainer__readPercentageBar {
+.NavigationBar__readPercentageBar {
   background: var(--colorFront);
   height: 100%;
 }
 
-.PagedNavigationContainer__footerInfo {
+.NavigationBar__footerInfo {
   font-size: var(--fontSizeSmall);
   line-height: var(--fontSizeSmall);
   padding: var(--articlePadding) 0 calc(var(--articlePadding) / 4) 0;

@@ -9,6 +9,7 @@ import {
 import { useEffect } from "react";
 import { useLoaderData } from "react-router";
 import PagedNavigation from "~/components/PagedNavigation";
+import NavigationBar from "~/components/PagedNavigation/NavigationBar";
 import { getFeedContent } from "~/server/getFeedContent.server";
 import { getFeeds } from "~/server/getFeeds.server";
 import { getNextFeedWithContentUrl } from "~/server/getNextFeedWithContent";
@@ -127,28 +128,30 @@ export default function FeedUrl() {
     <>
       {navigation.nextUrl && <PrefetchPageLinks page={navigation.nextUrl} />}
       {navigation.prevUrl && <PrefetchPageLinks page={navigation.prevUrl} />}
-      <div className="Feeds__lastUpdated">
-        <div className="Feeds__lastUpdatedContent">
-          <span>
-            {feedOldestArticle === 1 ? "Últimas 24hs" : "Últimos 7 días"}
-          </span>
-
-          <span>
-            Actualizado al{" "}
-            {new Date(updated).toLocaleString("es-AR", {
-              day: "numeric",
-              month: "short",
-              hour: "numeric",
-              minute: "numeric",
-            })}
-          </span>
-        </div>
-      </div>
 
       <PagedNavigation
         onGoNext={onGoNextHandler}
         onGoPrev={onGoPrevHandler}
-        mode="pages"
+        footer={(props) => <NavigationBar mode="pages" {...props} />}
+        header={() => (
+          <div className="Feeds__lastUpdated">
+            <div className="Feeds__lastUpdatedContent">
+              <span>
+                {feedOldestArticle === 1 ? "Últimas 24hs" : "Últimos 7 días"}
+              </span>
+
+              <span>
+                Actualizado al{" "}
+                {new Date(updated).toLocaleString("es-AR", {
+                  day: "numeric",
+                  month: "short",
+                  hour: "numeric",
+                  minute: "numeric",
+                })}
+              </span>
+            </div>
+          </div>
+        )}
       >
         <div>
           {!content.length || content.length === 0

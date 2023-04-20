@@ -88,7 +88,7 @@
   padding: 0;
 }
 
-.Article__siteName {
+.Article__header {
   font-family: var(--fontFamilySans);
   font-size: var(--fontSizeSmall);
   line-height: var(--fontSizeSmall);
@@ -98,10 +98,17 @@
   box-sizing: border-box;
   width: var(--articleColumnWidth);
   overflow: hidden;
+  margin: var(--articlePadding) 0 calc(var(--articlePadding)) 0;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: space-between;
+}
+
+.Article__siteName {
+  box-sizing: border-box;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin: var(--articlePadding) 0 calc(var(--articlePadding)) 0;
-  flex-shrink: 0;
 }
 
 @media (prefers-color-scheme: dark) {

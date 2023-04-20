@@ -6,12 +6,23 @@ import { useGesturesNavigation } from "./useGesturesNavigation";
 import { useContainerValues } from "./useContainerValues";
 import Actions from "./Actions";
 
+type FooterProps = {
+  totalPagesArray: string[];
+  page: number;
+  readPercentage: number;
+};
+
+type HeaderProps = {
+  page: number;
+};
+
 interface PagedNavigationProps {
   children: ReactElement;
   onGoNext?: () => void;
   onGoPrev?: () => void;
   onGoToParent?: () => void;
-  mode?: "percentage" | "pages";
+  footer?: (props: FooterProps) => ReactElement;
+  header?: (props: HeaderProps) => ReactElement;
 }
 
 export default function PagedNavigation({
@@ -19,7 +30,8 @@ export default function PagedNavigation({
   onGoNext,
   onGoPrev,
   onGoToParent,
-  mode = "percentage",
+  footer,
+  header,
 }: PagedNavigationProps) {
   const [showActions, setShowActions] = useState(false);
 
@@ -66,8 +78,10 @@ export default function PagedNavigation({
   return (
     <div className="PagedNavigation" id="PagedNavigation">
       <>
+        {header && <div>{header({ page })}</div>}
+
         <div
-          className="PagedNavigationContainer"
+          className="PagedNavigation__container"
           ref={containerRef}
           onScroll={handleScroll}
         >
@@ -76,46 +90,18 @@ export default function PagedNavigation({
               {showActions ? (
                 <Actions {...{ onGoToParent, toggleActions }} />
               ) : null}
-              <div className="PagedNavigationContainer__columns">
+              <div className="PagedNavigation__columns">
                 {cloneElement(children, { ref: contentRef })}
               </div>
             </>
           )}
         </div>
 
-        <div className="PagedNavigationContainer__footer">
-          {mode === "pages" ? (
-            <>
-              <div className="PagedNavigationContainer__footerInfo">
-                {`página ${page}`}
-              </div>
-              <div className="PagedNavigationContainer__readPages">
-                {totalPagesArray.map((_, i) => (
-                  <div
-                    key={i}
-                    className={
-                      i + 1 === page
-                        ? "PagedNavigationContainer__page-current"
-                        : "PagedNavigationContainer__page"
-                    }
-                  />
-                ))}
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="PagedNavigationContainer__footerInfo">
-                {readPercentage}%
-              </div>
-              <div className="PagedNavigationContainer__readPercentage">
-                <div
-                  className="PagedNavigationContainer__readPercentageBar"
-                  style={{ width: `${readPercentage}%` }}
-                />
-              </div>
-            </>
-          )}
-        </div>
+        {footer && (
+          <div className="PagedNavigation__footer">
+            {footer({ totalPagesArray, page, readPercentage })}
+          </div>
+        )}
       </>
     </div>
   );

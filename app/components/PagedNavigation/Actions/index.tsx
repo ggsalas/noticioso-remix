@@ -18,24 +18,24 @@ export default function Actions({ onGoToParent, toggleActions }: ActionsProps) {
   }
 
   return (
-    <div className="PagedNavigationContainer__actions">
-      <div className="PagedNavigationContainer__actions-menu">
-        <div className="PagedNavigationContainer__actions-menuBar">
+    <div className="Actions">
+      <div className="Actions__menu">
+        <div className="Actions__menuBar">
           {onGoToParent ? (
             <button onClick={onGoToParent}>{`< Back`}</button>
           ) : (
             <div />
           )}
-          <div className="PagedNavigationContainer__actions-menuBar-right">
+          <div className="Actions__menuBar-right">
             {onGoToParent && (
               <a href={articleUrl} rel="noopener noreferrer" target="_blank">
                 Original &#x2197;
               </a>
             )}
-            <div className="PagedNavigationContainer__actions-menuBar-clipboard-container">
+            <div className="Actions__menuBar-clipboard-container">
               <button onClick={onCopyUrl}>&#128279;</button>
               {clipboardNotification && (
-                <div className="PagedNavigationContainer__actions-menuBar-clipboard">
+                <div className="Actions__menuBar-clipboard">
                   Página copiada al portapapeles!
                 </div>
               )}
@@ -44,10 +44,7 @@ export default function Actions({ onGoToParent, toggleActions }: ActionsProps) {
           </div>
         </div>
       </div>
-      <div
-        className="PagedNavigationContainer__actions-home"
-        onClick={toggleActions}
-      />
+      <div className="Actions__home" onClick={toggleActions} />
     </div>
   );
 }

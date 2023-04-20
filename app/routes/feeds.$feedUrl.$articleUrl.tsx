@@ -13,6 +13,7 @@ import type { Readability } from "@mozilla/readability";
 import { getFeeds } from "~/server/getFeeds.server";
 import { getFeedNavigation } from "~/shared/getFeedNavigation";
 import type { Feed, Item } from "~/types";
+import NavigationBar from "~/components/PagedNavigation/NavigationBar";
 
 export function links() {
   return [
@@ -99,29 +100,16 @@ export default function ArticleUrl() {
     navigation.prevUrl ? navigate(navigation.prevUrl) : null;
   const onGoToFeed = () => navigate(navigation.feedPageUrl);
 
-  const subtitle = useMemo(() => {
-    const author = article?.byline || articleItemFromFeed?.author;
-    const date = articleItemFromFeed?.pubDate;
-    const formattedDate = date
-      ? new Date(date).toLocaleString("es", {
-          weekday: "long",
-          month: "long",
-          day: "numeric",
-          hour: "numeric",
-          minute: "numeric",
-        })
-      : "";
-
-    return (
-      <>
-        <span>{author ?? ""}</span> <span>{formattedDate}</span>
-      </>
-    );
-  }, [
-    article?.byline,
-    articleItemFromFeed?.author,
-    articleItemFromFeed?.pubDate,
-  ]);
+  const formattedDate = articleItemFromFeed?.pubDate
+    ? new Date(articleItemFromFeed.pubDate).toLocaleString("es", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+      })
+    : "";
+  const author = article?.byline || articleItemFromFeed?.author;
 
   if (!article) return null;
 
@@ -130,18 +118,29 @@ export default function ArticleUrl() {
       {navigation.nextUrl && <PrefetchPageLinks page={navigation.nextUrl} />}
       {navigation.prevUrl && <PrefetchPageLinks page={navigation.prevUrl} />}
 
-      <div className="Article__siteName">
-        {feed?.name} · {article.title}
-      </div>
-
       <PagedNavigation
         onGoNext={onGoNextHandler}
         onGoPrev={onGoPrevHandler}
         onGoToParent={onGoToFeed}
+        footer={(props) => <NavigationBar mode="percentage" {...props} />}
+        header={({ page }) => (
+          <div className="Article__header">
+            {page === 1 ? (
+              <>
+                <span className="Article__siteName">{feed?.name}</span>
+                <span>{formattedDate}</span>
+              </>
+            ) : (
+              <span className="Article__siteName">
+                {feed?.name} · {article.title}
+              </span>
+            )}
+          </div>
+        )}
       >
         <article className="Article">
           <h1 className="Article__title">{article?.title}</h1>
-          <p className="Article__subtitle">{subtitle}</p>
+          <p className="Article__subtitle">{author}</p>
           <div dangerouslySetInnerHTML={{ __html: article.content }} />
         </article>
       </PagedNavigation>
