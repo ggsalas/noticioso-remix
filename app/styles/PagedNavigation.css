@@ -117,6 +117,7 @@ body {
 .PagedNavigation__columns picture {
   display: flex;
   margin-bottom: 1em;
+  flex-direction: column;
 }
 
 .PagedNavigation__footer {
