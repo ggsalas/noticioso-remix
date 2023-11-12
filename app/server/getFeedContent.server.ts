@@ -1,4 +1,3 @@
-import axios from "axios";
 import { XMLParser } from "fast-xml-parser";
 import createDOMPurify from "dompurify";
 import { JSDOM } from "jsdom";
@@ -8,9 +7,18 @@ import type { FeedData, Item } from "~/types";
 export async function getFeedContent(url: string): Promise<FeedData> {
   try {
     const feed = await getFeedByUrl(url);
-    const res = await axios.get(url, { responseType: "text" });
+    const res = await fetch(url, {
+      method: "GET",
+      redirect: "follow",
+    });
+
+    if (!res.ok) {
+      throw new Error(`Error on get feeds: ${res}`);
+    }
+    const data = await res.text();
+
     const parser = new XMLParser();
-    let feedContent: FeedData = parser.parse(res.data);
+    let feedContent: FeedData = parser.parse(data);
     const currentTime = new Date().getTime();
     const date24HoursAgo = new Date(currentTime - 24 * 60 * 60 * 1000);
     const date7daysAgo = new Date(currentTime - 24 * 60 * 60 * 1000 * 7);
@@ -25,7 +33,7 @@ export async function getFeedContent(url: string): Promise<FeedData> {
           KEEP_CONTENT: false,
         });
         return { ...item, description };
-      })
+     })
       // Get only news from today
       .filter((item: Item) => {
         const itemDate = new Date(Date.parse(item.pubDate));
@@ -36,7 +44,7 @@ export async function getFeedContent(url: string): Promise<FeedData> {
       });
 
     feedContent.rss.channel.item = items;
-    feedContent.date = res.headers.date;
+    feedContent.date = new Date();
     return feedContent;
   } catch (error) {
     throw new Error(`Error on get feeds: ${error}`);

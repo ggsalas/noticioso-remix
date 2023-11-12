@@ -14,26 +14,35 @@ interface GetNextFeedUrl {
 
 export function getNextFeedUrl({ feeds, url }: GetNextFeedUrl) {
   const currentFeedIndex = feeds.findIndex((feed: Feed) => feed.url === url);
-  const nextFeedIndex =
-    currentFeedIndex < feeds.length - 1 ? currentFeedIndex + 1 : 0;
 
-  const nextUrl = feeds[nextFeedIndex].url;
-  return nextUrl;
+  if (currentFeedIndex) {
+    const nextFeedIndex =
+      currentFeedIndex < feeds.length - 1 ? currentFeedIndex + 1 : 0;
+
+    const nextUrl = feeds[nextFeedIndex].url;
+    return nextUrl;
+  }
+  return "";
 }
 
 export async function getNextFeedWithContent({
   feeds,
   url,
 }: GetNextFeedWithContent): Promise<string> {
-  const feedContent = await getFeedContent(url);
-  const nextUrl = getNextFeedUrl({ feeds, url });
-  const content = feedContent.rss.channel.item;
+  try {
+    const feedContent = await getFeedContent(url);
+    const nextUrl = getNextFeedUrl({ feeds, url });
+    const content = feedContent.rss.channel.item;
 
-  if (!content.length || content.length === 0) {
-    // No content on this feed, try with next url
-    return getNextFeedWithContent({ feeds, url: nextUrl });
-  } else {
-    return `/feeds/${encodeURIComponent(url)}`;
+    if (!content.length || content.length === 0) {
+      // No content on this feed, try with next url
+      return getNextFeedWithContent({ feeds, url: nextUrl });
+    } else {
+      return `/feeds/${encodeURIComponent(url)}`;
+    }
+  } catch (e) {
+    // If some feed fails, return empty url to prevent go to an error page
+    return "";
   }
 }
 
