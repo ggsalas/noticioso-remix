@@ -25,3 +25,11 @@ export default function Index() {
     </div>
   );
 }
+
+export function ErrorBoundary() {
+  return (
+    <div className="error-container">
+      <p>Error loading the main page</p>
+    </div>
+  );
+}

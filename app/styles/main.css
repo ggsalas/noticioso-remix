@@ -51,3 +51,26 @@ body {
   background-color: var(--colorBackground);
   color: var(--colorFront);
 }
+
+.error-container {
+  padding: 2em;
+  font-size: 1rem;
+  font-family: var(--fontFamilySerif);
+  text-align: center;
+}
+
+.error-container a {
+  border: 1px solid var(--colorFront);
+  color: var(--colorFront);
+  text-decoration: none;
+  padding: 0.3em 1em;
+  display: inline-block;
+}
+
+.error-container-action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  margin-top: 1em;
+}

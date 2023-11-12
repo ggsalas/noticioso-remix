@@ -185,3 +185,20 @@ export default function FeedUrl() {
     </>
   );
 }
+
+export function ErrorBoundary() {
+  return (
+    <div className="error-container">
+      <p>Error loading the feed content</p>
+      <div className="error-container-action">
+        <Link to="." reloadDocument>
+          Reload
+        </Link>
+        <span>or</span>
+        <Link to="..">
+          Go Back
+        </Link>
+      </div>
+    </div>
+  );
+}

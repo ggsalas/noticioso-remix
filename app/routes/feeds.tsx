@@ -85,3 +85,11 @@ export default function Feeds() {
     </div>
   );
 }
+
+export function ErrorBoundary() {
+  return (
+    <div className="error-container">
+      <p>Error loading the feed list</p>
+    </div>
+  );
+}

@@ -1,4 +1,9 @@
-import { PrefetchPageLinks, useLoaderData, useParams } from "@remix-run/react";
+import {
+  Link,
+  PrefetchPageLinks,
+  useLoaderData,
+  useParams,
+} from "@remix-run/react";
 import PagedNavigation from "~/components/PagedNavigation";
 import PagedNavigationStyles from "~/styles/PagedNavigation.css";
 import type { LoaderArgs } from "@remix-run/node";
@@ -145,5 +150,22 @@ export default function ArticleUrl() {
         </article>
       </PagedNavigation>
     </main>
+  );
+}
+
+export function ErrorBoundary() {
+  return (
+    <div className="error-container">
+      <p>Error loading the article page</p>
+      <div className="error-container-action">
+        <Link to="." reloadDocument>
+          Reload
+        </Link>
+        {" or "}
+        <Link to=".." relative="path">
+          Go Back
+        </Link>
+      </div>
+    </div>
   );
 }
