@@ -6,6 +6,7 @@ import { useScrollRestoration } from "./useScrollRestoration";
 export const usePagedNavigation = ({
   onGoNext,
   onGoPrev,
+  onGoToParent,
   containerElement,
   containerValues,
 }: any) => {
@@ -49,7 +50,7 @@ export const usePagedNavigation = ({
     switch (direction) {
       case "next":
         return isArticleEnd
-          ? onGoNext()
+          ? onGoToParent()
           : containerElement.scrollTo(page * increment, 0);
       case "back":
         return isArticleStart

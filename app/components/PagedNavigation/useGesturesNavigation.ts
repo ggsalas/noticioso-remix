@@ -4,7 +4,6 @@ const SWIPE_MAX_TIME = 500;
 const SWIPE_MIN_DRAG = 70;
 
 export function useGesturesNavigation({
-  viewportHeight,
   handlePageNavigation,
   onGoNext,
   onGoPrev,
@@ -46,13 +45,16 @@ export function useGesturesNavigation({
       const isHorizontal = Math.abs(deltaX) > Math.abs(deltaY);
       const leftDirection = deltaX > 0;
       const topDirection = deltaY > 0;
-      const isOnTopArea = touchstartY < viewportHeight / 3;
+      const topScreenSize = screen.height * 0.6;
+      const isOnTopArea = touchstartY < topScreenSize;
+      console.log(screen.height, " | ", topScreenSize, " | ", touchstartY);
 
       /**
-       *  ↓ toggleActions                ↑ onGoToParent
-       *  ----------------------------------------------------------
-       *  ↓ onGoPrev                     ↑ onGoNext
-       *  → handlePageNavigation(back)   ← handlePageNavigation(next)
+       * ┌───────────────┐
+       * │TOP SCREEN 60% │ ↓ toggleActions                ↑ onGoToParent
+       * │───────────────│ ----------------------------------------------------------
+       * │BTM SCREEN 40% │ ↓ onGoPrev                     ↑ onGoNext
+       * └───────────────┘ → handlePageNavigation(back)   ← handlePageNavigation(next)
        */
 
       if (deltaTime > SWIPE_MAX_TIME || shouldNotSwipe) {
@@ -83,12 +85,5 @@ export function useGesturesNavigation({
       document.removeEventListener("touchstart", touchStart);
       document.removeEventListener("touchend", touchEnd);
     };
-  }, [
-    handlePageNavigation,
-    onGoNext,
-    onGoPrev,
-    onGoToParent,
-    toggleActions,
-    viewportHeight,
-  ]);
+  }, [handlePageNavigation, onGoNext, onGoPrev, onGoToParent, toggleActions]);
 }
