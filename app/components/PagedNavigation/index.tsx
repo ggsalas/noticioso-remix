@@ -21,6 +21,7 @@ interface PagedNavigationProps {
   onGoNext?: () => void;
   onGoPrev?: () => void;
   onGoToParent?: () => void;
+  onEndOfNavigation?: () => void;
   footer?: (props: FooterProps) => ReactElement;
   header?: (props: HeaderProps) => ReactElement;
 }
@@ -30,6 +31,7 @@ export default function PagedNavigation({
   onGoNext,
   onGoPrev,
   onGoToParent,
+  onEndOfNavigation,
   footer,
   header,
 }: PagedNavigationProps) {
@@ -49,6 +51,7 @@ export default function PagedNavigation({
     onGoNext,
     onGoPrev,
     onGoToParent,
+    onEndOfNavigation,
     containerElement,
     containerValues,
   });

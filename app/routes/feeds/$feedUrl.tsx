@@ -132,6 +132,7 @@ export default function FeedUrl() {
       <PagedNavigation
         onGoNext={onGoNextHandler}
         onGoPrev={onGoPrevHandler}
+        onEndOfNavigation={onGoNextHandler}
         footer={(props) => <NavigationBar mode="pages" {...props} />}
         header={() => (
           <div className="Feeds__lastUpdated">
@@ -195,9 +196,7 @@ export function ErrorBoundary() {
           Reload
         </Link>
         <span>or</span>
-        <Link to="..">
-          Go Back
-        </Link>
+        <Link to="..">Go Back</Link>
       </div>
     </div>
   );

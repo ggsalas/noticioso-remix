@@ -7,6 +7,7 @@ export const usePagedNavigation = ({
   onGoNext,
   onGoPrev,
   onGoToParent,
+  onEndOfNavigation,
   containerElement,
   containerValues,
 }: any) => {
@@ -50,7 +51,7 @@ export const usePagedNavigation = ({
     switch (direction) {
       case "next":
         return isArticleEnd
-          ? onGoToParent()
+          ? onEndOfNavigation()
           : containerElement.scrollTo(page * increment, 0);
       case "back":
         return isArticleStart

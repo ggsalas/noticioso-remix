@@ -127,6 +127,7 @@ export default function ArticleUrl() {
         onGoNext={onGoNextHandler}
         onGoPrev={onGoPrevHandler}
         onGoToParent={onGoToFeed}
+        onEndOfNavigation={onGoToFeed}
         footer={(props) => <NavigationBar mode="percentage" {...props} />}
         header={({ page }) => (
           <div className="Article__header">
