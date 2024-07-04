@@ -93,27 +93,15 @@ const HARDCODED_FEEDS: Feed[] = [
   },
   {
     name: "ElObs UY - Nacional",
-    url: "https://www.elobservador.com.uy/rss/elobservador/nacional.xml",
+    url: "https://www.elobservador.com.uy/rss/pages/nacional.xml",
     oldestArticle: 1,
     lang: "es",
   },
-  /* {
-    name: "ElObs UY - Economia",
-    url: "https://www.elobservador.com.uy/rss/elobservador/economia-y-empresas.xml",
-    oldestArticle: 1,
-    lang: "es",
-  }, */
   {
     name: "ElObs UY - Argentina",
-    url: "https://www.elobservador.com.uy/rss/elobservador/argentina.xml",
+    url: "https://www.elobservador.com.uy/argentina/rss/pages/home.xml",
     oldestArticle: 1,
     lang: "es",
-  },
-  {
-    name: "Pocket Articles",
-    url: "https://getpocket.com/users/*sso1398958058269bd3/feed/all",
-    oldestArticle: 7,
-    lang: "es", // should be multiple languages
   },
   {
     name: "CSS-tricks",
